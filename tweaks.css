@@ -1,0 +1,15 @@
+.reveal .slides section {
+  text-align: left;
+}
+
+.reveal ul, .reveal ol, .reveal li {
+  text-align: left;
+}
+
+.revel h1 { 
+  font-size: 1.6em;
+}
+
+.revel h2 { 
+  font-size: 1.2em;
+}

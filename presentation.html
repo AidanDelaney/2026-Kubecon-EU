@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Cloud Native Buildpacks">
+  <meta name="dcterms.date" content="2026-01-01">
+  <title>Buildpacks: Towards 1.0, AI and Other Things</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/theme/moon.css" id="theme">
+  <link rel="stylesheet" href="tweaks.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Buildpacks: Towards 1.0, AI and Other Things</h1>
+  <p class="author">Cloud Native Buildpacks</p>
+  <p class="date">2026</p>
+</section>
+
+<section>
+<section id="introduction" class="title-slide slide level1">
+<h1>Introduction</h1>
+
+</section>
+<section id="about-this-talk" class="slide level2">
+<h2>About This Talk</h2>
+<p>This session will explore two main threads:</p>
+<ul>
+<li><strong>The Road to 1.0</strong> — achieving stability and feature
+completeness for widespread adoption</li>
+<li><strong>AI &amp; Machine Learning</strong> — simplifying how we
+build and deploy AI-driven applications</li>
+</ul>
+<div class="fragment">
+<p>Along the way, we’ll do a live demo building a Java application with
+a custom builder.</p>
+</div>
+</section>
+<section id="agenda" class="slide level2">
+<h2>Agenda</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buildpacks Demo — Java and Custom Builder</td>
+<td>~10 min</td>
+</tr>
+<tr>
+<td>AI &amp; ML — CUDA Base Images</td>
+<td>~10 min</td>
+</tr>
+<tr>
+<td>Towards 1.0 — Roadmap and Key Milestones</td>
+<td>~5 min</td>
+</tr>
+<tr>
+<td>Q &amp; A</td>
+<td>~5 min</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-are-cloud-native-buildpacks" class="slide level2">
+<h2>What Are Cloud Native Buildpacks?</h2>
+<ul>
+<li>buildpacks.io maintains a <em>specification</em></li>
+<li>Transform application source code into OCI container images</li>
+<li>No Dockerfile required</li>
+<li>Provide a <strong>structured</strong>, <strong>repeatable</strong>
+build process</li>
+<li>CNCF Incubating project</li>
+</ul>
+</section>
+<section id="cloud-native-buildpacks-implementations"
+class="slide level2">
+<h2>CLoud Native Buildpacks Implementations</h2>
+<h3 id="vendors">Vendors:</h3>
+<ul>
+<li>Heroku: <a
+href="https://elements.heroku.com/buildpacks">https://elements.heroku.com/buildpacks</a></li>
+<li>Paketo: <a href="https://paketo.io/">https://paketo.io/</a></li>
+<li>Google: <a
+href="https://docs.cloud.google.com/docs/buildpacks/overview">https://docs.cloud.google.com/docs/buildpacks/overview</a></li>
+</ul>
+</section></section>
+<section>
+<section id="demo-building-a-java-application"
+class="title-slide slide level1">
+<h1>Demo: Building a Java Application</h1>
+
+</section>
+<section id="the-goal" class="slide level2">
+<h2>The Goal</h2>
+<p>Build a production-ready Java application image using:</p>
+<ul>
+<li>As an application developer
+<ul>
+<li><code>pack build</code> and <code>docker run</code></li>
+</ul></li>
+<li>As a platform operator
+<ul>
+<li>a custom builder</li>
+</ul></li>
+</ul>
+</section>
+<section id="application-developer" class="slide level2">
+<h2>Application Developer</h2>
+<ul>
+<li>LIVE(ish) Demo
+<ul>
+<li>(yes, it’s pre-scripted)</li>
+</ul></li>
+<li>Animated <code>gif</code> available at [demo/java/demo.gif]</li>
+</ul>
+<pre><code>$ pack build example --builder cuda-java-builder</code></pre>
+<div class="fragment">
+<pre><code>$ docker run --rm -it example
+Backend: CpuBackend
+Learned: y = 2.03x + 0.93  (loss: 0.000911)</code></pre>
+</div>
+</section>
+<section id="platform-operator" class="slide level2">
+<h2>Platform Operator</h2>
+<ul>
+<li>We have control over the
+<strong><code>--builder</code></strong></li>
+</ul>
+<h3 id="questions">Questions</h3>
+<ul>
+<li>What language stacks do we support in cusom images?</li>
+<li>What are the JDKs/JREs that we support in production?</li>
+<li>How much flexibility do we provide to application developers?</li>
+</ul>
+</section>
+<section id="step-0---custom-buildrun-images" class="slide level2">
+<h2>Step 0 - Custom build/run images</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<ul>
+<li>Define build and run images with a <code>cnb</code> user</li>
+<li>Subsequent builds do not require <code>root</code>!</li>
+</ul>
+</div><div class="column" style="width:66%;">
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nvidia/cuda:13.1.1-cudnn-devel-ubuntu24.04</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_uid=1001</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_gid=1001</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> CNB_USER_ID=${cnb_uid} <span class="op">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    CNB_GROUP_ID=${cnb_gid}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">groupadd</span> <span class="at">--gid</span> <span class="va">${cnb_gid}</span> cnb <span class="dt">\</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a> <span class="kw">&amp;&amp;</span> <span class="ex">useradd</span> <span class="at">--uid</span> <span class="va">${cnb_uid}</span> <span class="dt">\ </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    --gid ${cnb_gid} -m cnb</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">USER</span> ${cnb_uid}:${cnb_gid}</span></code></pre></div>
+</div>
+</div>
+</section>
+<section id="step-1-create-a-custom-builder" class="slide level2">
+<h2>Step 1 — Create a Custom Builder</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p>Define a <code>builder.toml</code> that references the Paketo Java
+buildpack:</p>
+</div><div class="column" style="width:66%;">
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[build]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-build:latest&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[run.images]]</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-run:latest&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[[buildpacks]]</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uri</span> <span class="op">=</span> <span class="st">&quot;paketobuildpacks/java&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">[[targets]]</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">os</span> <span class="op">=</span> <span class="st">&quot;linux&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">arch</span> <span class="op">=</span> <span class="st">&quot;amd64&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">[[order]]</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">[[order.group]]</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span> <span class="op">=</span> <span class="st">&quot;paketo-buildpacks/java&quot;</span></span></code></pre></div>
+</div>
+</div>
+</section>
+<section id="step-2-create-the-builder-image" class="slide level2">
+<h2>Step 2 — Create the Builder Image</h2>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> builder create cuda-java-builder <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--config</span> builder.toml</span></code></pre></div>
+<div class="fragment">
+<p>Verify it was created:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> builder inspect cuda-java-builder</span></code></pre></div>
+</div>
+</section>
+<section id="step-3-build-the-java-application" class="slide level2">
+<h2>Step 3 — Build the Java Application</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-java-app <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> cuda-java-builder <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./demo/java</span></code></pre></div>
+<div class="fragment">
+<pre><code>===&gt; DETECTING
+paketo-buildpacks/ca-certificates 3.8.3
+paketo-buildpacks/bellsoft-liberica 10.8.1
+paketo-buildpacks/maven          6.15.14
+paketo-buildpacks/executable-jar 6.10.3
+paketo-buildpacks/spring-boot    5.29.2
+===&gt; BUILDING
+...
+===&gt; EXPORTING
+Successfully built image my-java-app</code></pre>
+</div>
+</section>
+<section id="step-4-run-it" class="slide level2">
+<h2>Step 4 — Run It</h2>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-p</span> 8080:8080 my-java-app</span></code></pre></div>
+<p>. . . DEMO OUTPUT HERE</p>
+<p>Started Application in 2.3 seconds</p>
+<pre><code>
+## Platform Owners: You Own the Builder
+
+As a platform operator, the custom builder gives you **complete control**:
+
+- **Pin specific buildpack versions** — reproducible builds across your org
+- **Curate the buildpack ecosystem** — only approved buildpacks in your builder
+- **Control the base images** — your security team manages the build &amp; run images
+- **Enforce compliance** — embed SBOMs, signing policies, and vulnerability scanning
+
+. . .
+
+&gt; Developers get a simple `pack build` command.
+&gt; Operators get full governance.
+
+# AI &amp; Machine Learning
+
+## The AI/ML Challenge
+
+Building AI/ML applications involves unique infrastructure requirements:
+
+- GPU drivers (NVIDIA CUDA)
+- Large frameworks (PyTorch, TensorFlow)
+- Complex native dependencies
+- Reproducible environments across dev and prod
+
+Buildpacks can help tame this complexity.
+
+## Approach: CUDA Base Image + Buildpacks
+</code></pre>
+<p>┌────────────────────────────────────────┐ │ App Image (OCI) │
+├────────────────────────────────────────┤ │ PyTorch Hello World
+Application │ ├────────────────────────────────────────┤ │ Python
+Buildpack Layers │ ├────────────────────────────────────────┤ │
+CUDA-enabled Base Image │ │ (nvidia/cuda:12.x-runtime-ubuntu22) │
+└────────────────────────────────────────┘</p>
+<pre><code>
+## Step 1 — Build a CUDA Base Image
+
+Use an **image extension** to generate a CUDA-capable run image:
+
+```dockerfile
+# run.Dockerfile — generated by the extension
+ARG base_image
+FROM ${base_image}
+
+# Install CUDA runtime libraries
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+    cuda-cudart-12-4 \
+    libcublas-12-4 \
+    libcufft-12-4 \
+    libcurand-12-4 \
+    libcusparse-12-4 \
+    libcudnn9-cuda-12 \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}</code></pre>
+</section>
+<section id="step-2-the-pytorch-hello-world-app" class="slide level2">
+<h2>Step 2 — The PyTorch Hello World App</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># app.py</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> platform</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Python: </span><span class="sc">{</span>platform<span class="sc">.</span>python_version()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;PyTorch: </span><span class="sc">{</span>torch<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;CUDA available: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>is_available()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> torch.cuda.is_available():</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">&quot;cuda&quot;</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;GPU: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_name(<span class="dv">0</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">&quot;cpu&quot;</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a simple tensor and perform a computation</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> torch.randn(<span class="dv">3</span>, <span class="dv">3</span>, device<span class="op">=</span>device)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> torch.randn(<span class="dv">3</span>, <span class="dv">3</span>, device<span class="op">=</span>device)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> torch.matmul(x, y)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Result tensor (on </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">):</span><span class="ch">\n</span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    main()</span></code></pre></div>
+</section>
+<section id="step-2-the-requirements-file" class="slide level2">
+<h2>Step 2 — The Requirements File</h2>
+<pre><code># requirements.txt
+torch&gt;=2.2.0
+torchvision&gt;=0.17.0
+numpy&gt;=1.26.0</code></pre>
+</section>
+<section id="step-3-build-with-buildpacks" class="slide level2">
+<h2>Step 3 — Build with Buildpacks</h2>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./pytorch-hello-world</span></code></pre></div>
+<div class="fragment">
+<pre><code>===&gt; DETECTING
+paketo-buildpacks/cpython     2.x.x
+paketo-buildpacks/pip          1.x.x
+paketo-buildpacks/pip-install  1.x.x
+cuda-extension                 0.1.0
+===&gt; BUILDING
+  Installing CPython 3.14.x
+  Installing pip dependencies via requirements.txt
+  Downloading torch-2.2.x ...
+===&gt; EXPORTING
+Successfully built image my-pytorch-app</code></pre>
+</div>
+</section>
+<section id="step-4-run-with-gpu-access" class="slide level2">
+<h2>Step 4 — Run with GPU Access</h2>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
+<div class="fragment">
+<pre><code>Python: 3.14.3
+PyTorch: 2.2.1+cu124
+CUDA available: True
+GPU: NVIDIA A100-SXM4-40GB
+Result tensor (on cuda):
+tensor([[ 0.4521, -1.2345,  0.8901],
+        [ 1.1234, -0.5678,  0.2345],
+        [-0.3456,  0.7890, -1.0123]], device=&#39;cuda:0&#39;)</code></pre>
+</div>
+</section>
+<section id="why-buildpacks-for-aiml" class="slide level2">
+<h2>Why Buildpacks for AI/ML?</h2>
+<ul>
+<li><strong>Reproducibility</strong> — consistent CUDA + Python
+environments</li>
+<li><strong>Security</strong> — automatic base image updates without
+rebuilding</li>
+<li><strong>Separation of concerns</strong> — data scientists write
+Python, platform teams manage CUDA</li>
+<li><strong>Rebase</strong> — update GPU drivers in the base image
+without rebuilding application layers
+<ul>
+<li>CUDA libraries are ABI compatible across minor versions</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<blockquote>
+<p>The CUDA layer and application layer are managed independently — just
+like any other buildpacks workflow.</p>
+</blockquote>
+</div>
+</section></section>
+<section>
+<section id="towards-1.0" class="title-slide slide level1">
+<h1>Towards 1.0</h1>
+
+</section>
+<section id="what-does-1.0-mean" class="slide level2">
+<h2>What Does 1.0 Mean?</h2>
+<ul>
+<li><strong>Stable APIs</strong> — Buildpack API and Platform API reach
+1.0</li>
+<li><strong>No more breaking changes</strong> without a major version
+bump</li>
+<li><strong>A promise</strong> to the ecosystem: safe to build on, safe
+to depend on</li>
+</ul>
+<div class="fragment">
+<p>The current versions:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Current</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buildpack API</td>
+<td>0.13</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Platform API</td>
+<td>0.16</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Lifecycle</td>
+<td>0.20.x</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Pack CLI</td>
+<td>0.40.x</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="key-components-driving-1.0" class="slide level2">
+<h2>Key Components Driving 1.0</h2>
+<pre><code>  ┌──────────────────────────────────────────┐
+  │              Spec (spec repo)            │
+  │  Buildpack API · Platform API · Distro   │
+  └──────────┬───────────────┬───────────────┘
+             │               │
+    ┌────────▼────┐   ┌──────▼──────┐
+    │  Lifecycle  │   │   Pack CLI  │
+    │  (0.20.x)  │   │  (0.40.x)   │
+    └─────────────┘   └─────────────┘</code></pre>
+<ul>
+<li>The Spec defines contracts. The Lifecycle implements them.</li>
+<li>Pack CLI is the primary user-facing tool.</li>
+</ul>
+</section>
+<section id="breaking-changes-that-must-land-before-1.0"
+class="slide level2">
+<h2>Breaking Changes That Must Land Before 1.0</h2>
+<p>These approved RFCs represent <strong>intentional breaking
+changes</strong> — they must ship before the API is frozen:</p>
+<ul>
+<li><strong>RFC #0096 — Remove Stacks and Mixins</strong>
+<ul>
+<li>Stacks are replaced by build/run image targets</li>
+<li>Simplifies the mental model significantly</li>
+</ul></li>
+<li><strong>RFC #0093 — Remove Shell Processes</strong>
+<ul>
+<li>All processes become direct processes</li>
+<li>Improved security and signal handling</li>
+</ul></li>
+<li><strong>RFC #0105 — Dockerfiles (Image Extensions)</strong>
+<ul>
+<li>Allows customizing build/run images via Dockerfiles</li>
+<li>Critical for use cases like CUDA, as we just saw</li>
+</ul></li>
+</ul>
+</section>
+<section id="active-rfcs-shaping-the-future" class="slide level2">
+<h2>Active RFCs Shaping the Future</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 35%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>RFC</th>
+<th>Title</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#0134</td>
+<td>Execution Environments</td>
+<td>Define runtime contract for apps</td>
+</tr>
+<tr>
+<td>#0131</td>
+<td>Build Observability (OTEL)</td>
+<td>Tracing and metrics for builds</td>
+</tr>
+<tr>
+<td>#0130</td>
+<td>OCI Image Annotations</td>
+<td>Richer metadata on output images</td>
+</tr>
+<tr>
+<td>#0128</td>
+<td>Multi-arch Support</td>
+<td>Build once, run on amd64 &amp; arm64</td>
+</tr>
+<tr>
+<td>#0125</td>
+<td>Parallel Cache/Image Export</td>
+<td>Faster builds</td>
+</tr>
+<tr>
+<td>#0113</td>
+<td>Additional OCI Artifacts</td>
+<td>SBOMs, signatures as OCI artifacts</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lifecycle-0.21.0-the-next-milestone" class="slide level2">
+<h2>Lifecycle 0.21.0 — The Next Milestone</h2>
+<p>8 open issues targeting the next lifecycle release:</p>
+<ul>
+<li><strong>Export run image metadata</strong> — richer output image
+labels</li>
+<li><strong>Report.toml enhancements</strong> — more build data for
+CI/CD</li>
+<li><strong>Corrupt cache recovery</strong> — security hardening</li>
+<li><strong>containerd socket export</strong> — direct export to
+containerd</li>
+<li><strong>Self-signed certificate support</strong> —
+enterprise-friendly Kubernetes</li>
+<li><strong>FreeBSD support</strong> — expanding platform reach</li>
+<li><strong>OCI layout + extensions</strong> — run image extensions with
+OCI layout export</li>
+</ul>
+</section>
+<section id="pack-cli-0.41.0-whats-coming" class="slide level2">
+<h2>Pack CLI 0.41.0 — What’s Coming</h2>
+<p>24 open issues in the 0.41.0 milestone, including:</p>
+<ul>
+<li><strong>Platform API 0.14 support</strong> — <code>-run</code> flag
+in restorer</li>
+<li><strong>Podman compatibility</strong> — fixing docker host
+issues</li>
+<li><strong><code>pack extension new</code></strong> — scaffolding for
+image extensions</li>
+<li><strong>Cosign image signing</strong> — sign
+<code>buildpacksio/pack</code> images + SBOM</li>
+<li><strong>containerd daemon support</strong> — publish-then-pull
+workaround</li>
+<li><strong><code>project.toml</code> directory exclusion</strong> — fix
+glob behavior</li>
+<li><strong><code>try-always</code> pull policy</strong> — new pull
+policy option</li>
+</ul>
+</section>
+<section id="spec-stabilization-roadmap" class="slide level2">
+<h2>Spec Stabilization Roadmap</h2>
+<pre><code> Now          ──────────▶          1.0
+  │                                 │
+  ├─ Buildpack API 0.13             │
+  │   └── PATH delimiter fix       │
+  │                                 │
+  ├─ Platform API 0.16              │
+  │   └── Cosign/SBOM spec         │
+  │                                 │
+  ├─ Distribution 0.3 / 0.4        │
+  │   └── Builder order changes    │
+  │   └── Multi-platform builders  │
+  │                                 │
+  └── Remove deprecated features ──┘
+      (Stacks, Mixins, Shell Procs)</code></pre>
+</section>
+<section id="what-1.0-means-for-you" class="slide level2">
+<h2>What 1.0 Means for You</h2>
+<p><strong>For Application Developers:</strong></p>
+<ul>
+<li>Stable CLI and build experience — no surprises</li>
+<li>Multi-arch images out of the box</li>
+<li>Better error messages and observability</li>
+</ul>
+<div class="fragment">
+<p><strong>For Buildpack Authors:</strong></p>
+<ul>
+<li>A frozen Buildpack API to target</li>
+<li>Image extensions for advanced customization</li>
+<li>First-class SBOM and signing support</li>
+</ul>
+</div>
+<div class="fragment">
+<p><strong>For Platform Operators:</strong></p>
+<ul>
+<li>Stable Platform API to integrate against</li>
+<li>Builder spec for governance</li>
+<li>OCI-native — containerd, Kubernetes-ready</li>
+</ul>
+</div>
+</section>
+<section id="how-to-get-involved" class="slide level2">
+<h2>How to Get Involved</h2>
+<ul>
+<li><strong>GitHub:</strong> <a
+href="https://github.com/buildpacks">github.com/buildpacks</a></li>
+<li><strong>RFCs:</strong> <a
+href="https://github.com/buildpacks/rfcs">github.com/buildpacks/rfcs</a>
+— propose and discuss changes</li>
+<li><strong>Slack:</strong> <a
+href="https://slack.buildpacks.io">slack.buildpacks.io</a> — join the
+community</li>
+<li><strong>Working Group:</strong> Weekly calls — all are welcome</li>
+</ul>
+<div class="fragment">
+<blockquote>
+<p>We’re a CNCF project — contributions from every perspective make us
+stronger.</p>
+</blockquote>
+</div>
+</section></section>
+<section>
+<section id="thank-you" class="title-slide slide level1">
+<h1>Thank You</h1>
+
+</section>
+<section id="questions-1" class="slide level2">
+<h2>Questions?</h2>
+<p><strong>Buildpacks: Towards 1.0, AI and Other Things</strong></p>
+<ul>
+<li>Docs: <a
+href="https://buildpacks.io/docs">buildpacks.io/docs</a></li>
+<li>GitHub: <a
+href="https://github.com/buildpacks">github.com/buildpacks</a></li>
+<li>Slack: <a
+href="https://slack.buildpacks.io">slack.buildpacks.io</a></li>
+</ul>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1">
+<h1>Appendix</h1>
+
+</section>
+<section id="control-jdkjre-versions-in-builder" class="slide level2">
+<h2>Control JDK/JRE Versions in Builder</h2>
+<ul>
+<li>Paketo specific</li>
+<li>Repackage image with updated metadata
+<ul>
+<li>pull down packeto image</li>
+<li>remove unwanted JDK/JREs from <code>buildpack.toml</code></li>
+<li>update buildpack id</li>
+<li>push the image internally</li>
+</ul></li>
+</ul>
+</section>
+<section id="buildpacks-rebase" class="slide level2">
+<h2>Buildpacks Rebase</h2>
+<ul>
+<li></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

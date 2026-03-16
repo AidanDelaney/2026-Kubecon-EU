@@ -1,0 +1,16 @@
+[build]
+  image = "cuda-build:latest"
+
+[[run.images]]
+  image = "cuda-run:latest"
+
+[[buildpacks]]
+  uri = "docker://docker.io/paketobuildpacks/java"
+
+[[targets]]
+  os = "linux"
+  arch = "amd64"
+
+[[order]]
+  [[order.group]]
+    id = "paketo-buildpacks/java"
