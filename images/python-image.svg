@@ -1,0 +1,30 @@
+<svg width="600" height="360" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill: #0b1b2b; }
+    .layer { fill: #13293d; stroke: #2ec4b6; stroke-width: 1.5; }
+    .text { fill: #e6f1ff; font-family: "Segoe UI", Roboto, sans-serif; font-size: 14px; }
+    .subtext { fill: #9fb3c8; font-size: 12px; }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="600" height="360" rx="8"></rect>
+
+  <!-- Layers -->
+  <rect class="layer" x="50" y="40" width="500" height="50" rx="6"></rect>
+  <text class="text" x="300" y="70" text-anchor="middle">Launcher</text>
+
+  <rect class="layer" x="50" y="90" width="500" height="50" rx="6"></rect>
+  <text class="text" x="300" y="120" text-anchor="middle">PyTorch Hello World Application</text>
+
+  <rect class="layer" x="50" y="140" width="500" height="50" rx="6"></rect>
+  <text class="text" x="300" y="170" text-anchor="middle">Python Buildpack Layers</text>
+
+  <rect class="layer" x="50" y="190" width="500" height="90" rx="6"></rect>
+  <text class="text" x="300" y="225" text-anchor="middle">CUDA-enabled Base Image</text>
+  <text class="subtext" x="300" y="245" text-anchor="middle">(nvidia/cuda:12.x-runtime-ubuntu22)</text>
+
+  <!-- Optional title -->
+  <text class="text" x="300" y="25" text-anchor="middle" font-size="16" fill="#2ec4b6">
+    OCI Image Layers
+  </text>
+</svg>

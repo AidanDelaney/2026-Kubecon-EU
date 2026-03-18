@@ -1,0 +1,55 @@
+<svg width="1000" height="380" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill: #0b1b2b; }
+    .layer { fill: #13293d; stroke: #2ec4b6; stroke-width: 1.5; }
+    .base { fill: #0f2436; stroke: #2ec4b6; stroke-width: 1.5; }
+    .highlight { fill: #163a2f; stroke: #3ddc97; stroke-width: 2.5; }
+    .text { fill: #e6f1ff; font-family: "Segoe UI", Roboto, sans-serif; font-size: 14px; }
+    .subtext { fill: #9fb3c8; font-size: 12px; }
+    .title { fill: #2ec4b6; font-size: 16px; font-weight: 500; }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1000" height="380" rx="10"></rect>
+
+  <!-- Titles -->
+  <text class="title" x="250" y="30" text-anchor="middle">Original Image</text>
+  <text class="title" x="750" y="30" text-anchor="middle">Rebased Image</text>
+
+  <!-- LEFT STACK -->
+  <!-- Launcher -->
+  <rect class="layer" x="50" y="50" width="400" height="50" rx="6"></rect>
+  <text class="text" x="250" y="80" text-anchor="middle">Launcher</text>
+
+  <!-- App -->
+  <rect class="layer" x="50" y="100" width="400" height="50" rx="6"></rect>
+  <text class="text" x="250" y="130" text-anchor="middle">PyTorch Hello World Application</text>
+
+  <!-- Buildpacks -->
+  <rect class="layer" x="50" y="150" width="400" height="50" rx="6"></rect>
+  <text class="text" x="250" y="180" text-anchor="middle">Python Buildpack Layers</text>
+
+  <!-- Base -->
+  <rect class="base" x="50" y="200" width="400" height="100" rx="6"></rect>
+  <text class="text" x="250" y="235" text-anchor="middle">CUDA-enabled Base Image</text>
+  <text class="subtext" x="250" y="255" text-anchor="middle">(nvidia/cuda:12.x-runtime-ubuntu22)</text>
+
+  <!-- RIGHT STACK -->
+  <!-- Launcher -->
+  <rect class="layer" x="550" y="50" width="400" height="50" rx="6"></rect>
+  <text class="text" x="750" y="80" text-anchor="middle">Launcher</text>
+
+  <!-- App -->
+  <rect class="layer" x="550" y="100" width="400" height="50" rx="6"></rect>
+  <text class="text" x="750" y="130" text-anchor="middle">PyTorch Hello World Application</text>
+
+  <!-- Buildpacks -->
+  <rect class="layer" x="550" y="150" width="400" height="50" rx="6"></rect>
+  <text class="text" x="750" y="180" text-anchor="middle">Python Buildpack Layers</text>
+
+  <!-- Highlighted Base -->
+  <rect class="highlight" x="550" y="200" width="400" height="100" rx="6"></rect>
+  <text class="text" x="750" y="235" text-anchor="middle">CUDA-enabled Base Image</text>
+  <text class="subtext" x="750" y="255" text-anchor="middle">(nvidia/cuda:12.y-runtime-ubuntu22)</text>
+
+</svg>

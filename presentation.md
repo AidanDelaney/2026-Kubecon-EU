@@ -2,7 +2,22 @@
 % Cloud Native Buildpacks
 % 2026
 
-# Introduction
+## Who am I
+
+:::: {.columns}
+::: {.column width="40%"}
+* Buildpacks Maintainer
+* Academic Background
+* 20+ years of Industry Experience
+* CNCF Lorem Ipsum 2025
+:::
+::: {.column width="60%"}
+* We're hiring in Bloomberg Dublin! and other locations
+
+![](images/1dbcedf1-ce09-4f2d-8dc9-914a9b8270bf.png){width=40%} ![](images/4d58acd4-ffba-46c3-b08d-537e7d0588bf.png){width=40%}
+
+:::
+::::
 
 ## About This Talk
 
@@ -24,32 +39,53 @@ Along the way, we'll do a live demo building a Java application with a custom bu
 | Towards 1.0 — Roadmap and Key Milestones | ~5 min |
 | Q & A | ~5 min |
 
+## Who has used Buildpacks?
+
 ## What Are Cloud Native Buildpacks?
 
-- buildpacks.io maintains a _specification_
+- [buildpacks.io](https://buildpacks.io) maintains a _specification_
+- Allow composition of "buildpacks"
 - Transform application source code into OCI container images
-- No Dockerfile required
-- Provide a **structured**, **repeatable** build process
+- Provide a multi-vendor **structured**, **repeatable** build process
 - CNCF Incubating project
 
-## CLoud Native Buildpacks Implementations
+<aside class="notes">
+* We also provide both `pack` and `kpack` as tools
+* These use buildpacks that follow the specification to produce OCI images
+</aside>
 
-### Vendors:
+## CLoud Native Buildpacks Implementations
 
 - Heroku: [https://elements.heroku.com/buildpacks](https://elements.heroku.com/buildpacks)
 - Paketo: [https://paketo.io/](https://paketo.io/)
 - Google: [https://docs.cloud.google.com/docs/buildpacks/overview](https://docs.cloud.google.com/docs/buildpacks/overview)
+- You!: Internal buildpacks in your organization
 
-# Demo: Building a Java Application
+<aside class="notes">
+- Application stacks supported
+  * .Net, Python, Ruby, Java, TypeScript, ...
+  * not Fortran (yet!)
+  * Main vendors
+- Buildpacks are theoretically interoperable, practically not so
+- Link to the demo on the next slide
+    - paketo buildpacks - production-level examples
+    - Java used in demos
+</aside>
 
-## The Goal
+## Demo: The Goal
 
 Build a production-ready Java application image using:
 
 * As an application developer
-  - `pack build` and `docker run`
+  - `pack build`: use our `pack` CLI to build an image
+  - `docker run`: or `podman` deploy on k8s
 * As a platform operator
   - a custom builder
+
+<aside class="notes">
+* Demonstrate the simplicity of the application developer experience
+* Show how platform operators (DevOps, platform engineer, ...) retain control of the experience
+</aside>
 
 ## Application Developer
 
@@ -69,16 +105,47 @@ Backend: CpuBackend
 Learned: y = 2.03x + 0.93  (loss: 0.000911)
 ```
 
+<aside class="notes">
+* Explain application first!
+    - Minimal "hello world" for neural networks — trains a single-neuron network to learn the linear equation `y = 2x + 1`.
+    - The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact points on the line `y = 2x + 1`.
+    - The network is never told the formula — it has to figure out the slope (2) and intercept (1) itself.
+    - Maven for dependency management
+    - Local JDK 25 with Java 21 output
+* Point out command
+* Pause on configurable options (because `--verbose`)
+</aside>
+
 ## Platform Operator
 
+* DevOps/DevSecOps/Platform Engineers...
 * We have control over the **`--builder`**
+* `cuda-java-builder` is a custom builder
 
-### Questions
-* What language stacks do we support in cusom images?
-* What are the JDKs/JREs that we support in production?
+<aside class="notes">
+* Motivate why we might want a custom builder
+</aside>
+
+## Platform Operator Questions
+
+* What is our corporate base image?
+* What language stacks do we support in production images?
+* What are the runtimes that we support in production?
 * How much flexibility do we provide to application developers?
+* How do I patch a security vulnerability?
+* How do I bundle a proprietary layer onto the image?
 
-## Step 0 - Custom build/run images
+<aside class="notes">
+* Even open-source projects standardize on base images
+  - Debian, Ubuntu, Fedora, Scratch
+* Developers are free to experiment with languages in dev
+  - production needs support
+* Control/Force migrations to newer JDKs, Python interpreters...
+</aside>
+
+## Platform Operator Answers
+
+* What is our corporate base image?
 
 :::: {.columns}
 ::: {.column width="33%"}
@@ -103,17 +170,17 @@ USER ${cnb_uid}:${cnb_gid}
 :::
 ::::
 
-## Step 1 — Create a Custom Builder
+
+## Platform Operator Answers
+
+* What language stacks do we support in production images?
 
 :::: {.columns}
 ::: {.column width="33%"}
-Define a `builder.toml` that references the Paketo Java buildpack:
+Define a `builder.toml` that references the Paketo Java buildpack
 :::
 ::: {.column width="66%"}
 ```toml
-[build]
-  image = "cuda-build:latest"
-
 [[run.images]]
   image = "cuda-run:latest"
 
@@ -130,7 +197,18 @@ Define a `builder.toml` that references the Paketo Java buildpack:
 ```
 :::
 ::::
-## Step 2 — Create the Builder Image
+
+## Platform Operator Answers
+
+The following questions will be answered at the Buildpacks booth:
+
+* What are the runtimes that we support in production? 
+* How much flexibility do we provide to application developers?
+* How do I patch a security vulnerability?
+* How do I bundle a proprietary layer onto the image?
+
+<!--
+## Create the Builder Image
 
 ```bash
 pack builder create cuda-java-builder \
@@ -145,56 +223,33 @@ Verify it was created:
 pack builder inspect cuda-java-builder
 ```
 
-## Step 3 — Build the Java Application
+<aside class="notes">
+* run the builder inspect
+* point out that the `java` buildpack contains a bunch of others
+* some of which you may want to omit
+</aside>
+-->
+## You Own the Builder
 
-```bash
-pack build my-java-app \
-  --builder cuda-java-builder \
-  --path ./demo/java
-```
+The custom builder gives you **complete control**:
 
-. . .
-
-```
-===> DETECTING
-paketo-buildpacks/ca-certificates 3.8.3
-paketo-buildpacks/bellsoft-liberica 10.8.1
-paketo-buildpacks/maven          6.15.14
-paketo-buildpacks/executable-jar 6.10.3
-paketo-buildpacks/spring-boot    5.29.2
-===> BUILDING
-...
-===> EXPORTING
-Successfully built image my-java-app
-```
-
-## Step 4 — Run It
-
-```bash
-docker run --rm -p 8080:8080 my-java-app
-```
-
-. . .
-DEMO OUTPUT HERE
-
-Started Application in 2.3 seconds
-```
-
-## Platform Owners: You Own the Builder
-
-As a platform operator, the custom builder gives you **complete control**:
-
-- **Pin specific buildpack versions** — reproducible builds across your org
-- **Curate the buildpack ecosystem** — only approved buildpacks in your builder
-- **Control the base images** — your security team manages the build & run images
-- **Enforce compliance** — embed SBOMs, signing policies, and vulnerability scanning
+- **Pin specific buildpack versions**
+- **Curate the buildpack ecosystem**
+- **Control the base images**
+- **Enforce compliance**
 
 . . .
 
 > Developers get a simple `pack build` command.
+
 > Operators get full governance.
 
-# AI & Machine Learning
+<aside class="notes">
+- **Pin specific buildpack versions** — reproducible builds across your org
+- **Curate the buildpack ecosystem** — only approved Buildpacks in your builder
+- **Control the base images** — your security team manages the build & run images
+- **Enforce compliance** — embed SBOMs, signing policies, and vulnerability scanning
+</aside>
 
 ## The AI/ML Challenge
 
@@ -207,83 +262,25 @@ Building AI/ML applications involves unique infrastructure requirements:
 
 Buildpacks can help tame this complexity.
 
-## Approach: CUDA Base Image + Buildpacks
+## Supporting CUDA
 
-```
-┌────────────────────────────────────────┐
-│            App Image (OCI)             │
-├────────────────────────────────────────┤
-│   PyTorch Hello World Application     │
-├────────────────────────────────────────┤
-│   Python Buildpack Layers              │
-├────────────────────────────────────────┤
-│   CUDA-enabled Base Image             │
-│   (nvidia/cuda:12.x-runtime-ubuntu22) │
-└────────────────────────────────────────┘
-```
+* Separate builders - see Java demo
+  `pack build --builder ...`
 
-## Step 1 — Build a CUDA Base Image
+OR
 
-Use an **image extension** to generate a CUDA-capable run image:
+* Use an **image extension** to generate a CUDA-capable run image:
+  - at build time, install the CUDA libraries
+  - `pack build --extensions cuda ...`
 
-```dockerfile
-# run.Dockerfile — generated by the extension
-ARG base_image
-FROM ${base_image}
+<aside class="notes">
+* Tradeoffs
+  - separate builders places onus on app developers to choose correct builder
+  - image extensions loose _rebase_
+  - image extensions not yet supported on `kpack`
+</aside>
 
-# Install CUDA runtime libraries
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-cudart-12-4 \
-    libcublas-12-4 \
-    libcufft-12-4 \
-    libcurand-12-4 \
-    libcusparse-12-4 \
-    libcudnn9-cuda-12 \
-    && rm -rf /var/lib/apt/lists/*
-
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
-```
-
-## Step 2 — The PyTorch Hello World App
-
-```python
-# app.py
-import torch
-import platform
-
-def main():
-    print(f"Python: {platform.python_version()}")
-    print(f"PyTorch: {torch.__version__}")
-    print(f"CUDA available: {torch.cuda.is_available()}")
-
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-        print(f"GPU: {torch.cuda.get_device_name(0)}")
-    else:
-        device = torch.device("cpu")
-
-    # Create a simple tensor and perform a computation
-    x = torch.randn(3, 3, device=device)
-    y = torch.randn(3, 3, device=device)
-    z = torch.matmul(x, y)
-    print(f"Result tensor (on {device}):\n{z}")
-
-if __name__ == "__main__":
-    main()
-```
-
-## Step 2 — The Requirements File
-
-```
-# requirements.txt
-torch>=2.2.0
-torchvision>=0.17.0
-numpy>=1.26.0
-```
-
-## Step 3 — Build with Buildpacks
+## Step 2 — Build with Buildpacks
 
 ```bash
 pack build my-pytorch-app \
@@ -295,7 +292,7 @@ pack build my-pytorch-app \
 
 ```
 ===> DETECTING
-paketo-buildpacks/cpython     2.x.x
+paketo-buildpacks/cpython      2.x.x
 paketo-buildpacks/pip          1.x.x
 paketo-buildpacks/pip-install  1.x.x
 cuda-extension                 0.1.0
@@ -307,7 +304,7 @@ cuda-extension                 0.1.0
 Successfully built image my-pytorch-app
 ```
 
-## Step 4 — Run with GPU Access
+## Step 3 — Run with GPU Access
 
 ```bash
 docker run --rm --gpus all my-pytorch-app
@@ -329,8 +326,8 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 ## Why Buildpacks for AI/ML?
 
 - **Reproducibility** — consistent CUDA + Python environments
-- **Security** — automatic base image updates without rebuilding
 - **Separation of concerns** — data scientists write Python, platform teams manage CUDA
+- **Security** — automatic base image updates without rebuilding application
 - **Rebase** — update GPU drivers in the base image without rebuilding application layers
     * CUDA libraries are ABI compatible across minor versions 
 
@@ -346,37 +343,14 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 - **No more breaking changes** without a major version bump
 - **A promise** to the ecosystem: safe to build on, safe to depend on
 
-. . .
-
-The current versions:
-
-| Component | Current | Target |
-|-----------|---------|--------|
-| Buildpack API | 0.13 | 1.0 |
-| Platform API | 0.16 | 1.0 |
-| Lifecycle | 0.20.x | 1.0 |
-| Pack CLI | 0.40.x | 1.0 |
-
-## Key Components Driving 1.0
-
-```
-  ┌──────────────────────────────────────────┐
-  │              Spec (spec repo)            │
-  │  Buildpack API · Platform API · Distro   │
-  └──────────┬───────────────┬───────────────┘
-             │               │
-    ┌────────▼────┐   ┌──────▼──────┐
-    │  Lifecycle  │   │   Pack CLI  │
-    │  (0.20.x)  │   │  (0.40.x)   │
-    └─────────────┘   └─────────────┘
-```
-
+<aside class="notes">
 * The Spec defines contracts. The Lifecycle implements them.
 * Pack CLI is the primary user-facing tool.
+</aside>
 
 ## Breaking Changes That Must Land Before 1.0
 
-These approved RFCs represent **intentional breaking changes** — they must ship before the API is frozen:
+Approved RFCs **intentional breaking changes**:
 
 - **RFC #0096 — Remove Stacks and Mixins**
   - Stacks are replaced by build/run image targets
@@ -388,10 +362,11 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 
 - **RFC #0105 — Dockerfiles (Image Extensions)**
   - Allows customizing build/run images via Dockerfiles
-  - Critical for use cases like CUDA, as we just saw
+  - For use cases like CUDA, as we just saw
 
 ## Active RFCs Shaping the Future
 
+::: {style="font-size: 75%;"}
 | RFC | Title | Impact |
 |-----|-------|--------|
 | #0134 | Execution Environments | Define runtime contract for apps |
@@ -400,7 +375,9 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 | #0128 | Multi-arch Support | Build once, run on amd64 & arm64 |
 | #0125 | Parallel Cache/Image Export | Faster builds |
 | #0113 | Additional OCI Artifacts | SBOMs, signatures as OCI artifacts |
+:::
 
+<!--
 ## Lifecycle 0.21.0 — The Next Milestone
 
 8 open issues targeting the next lifecycle release:
@@ -443,7 +420,7 @@ These approved RFCs represent **intentional breaking changes** — they must shi
   └── Remove deprecated features ──┘
       (Stacks, Mixins, Shell Procs)
 ```
-
+-->
 ## What 1.0 Means for You
 
 **For Application Developers:**
@@ -460,7 +437,7 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 - Image extensions for advanced customization
 - First-class SBOM and signing support
 
-. . .
+## What 1.0 Means for You
 
 **For Platform Operators:**
 
@@ -472,10 +449,8 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 
 - **GitHub:** [github.com/buildpacks](https://github.com/buildpacks)
 - **RFCs:** [github.com/buildpacks/rfcs](https://github.com/buildpacks/rfcs) — propose and discuss changes
-- **Slack:** [slack.buildpacks.io](https://slack.buildpacks.io) — join the community
+- **Slack:** [cloud-native.slack.com](https://cloud-native.slack.com/) — join the community
 - **Working Group:** Weekly calls — all are welcome
-
-. . .
 
 > We're a CNCF project — contributions from every perspective make us stronger.
 
@@ -487,7 +462,7 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 
 - Docs: [buildpacks.io/docs](https://buildpacks.io/docs)
 - GitHub: [github.com/buildpacks](https://github.com/buildpacks)
-- Slack: [slack.buildpacks.io](https://slack.buildpacks.io)
+- Slack: [cloud-native.slack.com](https://cloud-native.slack.com/)
 
 # Appendix
 
@@ -502,4 +477,28 @@ These approved RFCs represent **intentional breaking changes** — they must shi
 
 ## Buildpacks Rebase
 
-* 
+![](images/rebase.svg)
+
+Note: **registry only** operation
+
+## CUDA Image Extensions
+
+```dockerfile
+# run.Dockerfile — generated by the extension
+ARG base_image
+FROM ${base_image}
+
+# Install CUDA runtime libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-cudart-12-4 \
+    libcublas-12-4 \
+    libcufft-12-4 \
+    libcurand-12-4 \
+    libcusparse-12-4 \
+    libcudnn9-cuda-12 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+```

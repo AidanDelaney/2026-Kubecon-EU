@@ -109,10 +109,26 @@
   <p class="date">2026</p>
 </section>
 
-<section>
-<section id="introduction" class="title-slide slide level1">
-<h1>Introduction</h1>
-
+<section id="who-am-i" class="slide level2">
+<h2>Who am I</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Buildpacks Maintainer</li>
+<li>Academic Background</li>
+<li>20+ years of Industry Experience</li>
+<li>CNCF Lorem Ipsum 2025</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<ul>
+<li>We’re hiring in Bloomberg Dublin! and other locations</li>
+</ul>
+<p><img data-src="images/1dbcedf1-ce09-4f2d-8dc9-914a9b8270bf.png"
+style="width:40.0%" /> <img
+data-src="images/4d58acd4-ffba-46c3-b08d-537e7d0588bf.png"
+style="width:40.0%" /></p>
+</div>
+</div>
 </section>
 <section id="about-this-talk" class="slide level2">
 <h2>About This Talk</h2>
@@ -157,48 +173,80 @@ a custom builder.</p>
 </tbody>
 </table>
 </section>
+<section id="who-has-used-buildpacks" class="slide level2">
+<h2>Who has used Buildpacks?</h2>
+</section>
 <section id="what-are-cloud-native-buildpacks" class="slide level2">
 <h2>What Are Cloud Native Buildpacks?</h2>
 <ul>
-<li>buildpacks.io maintains a <em>specification</em></li>
+<li><a href="https://buildpacks.io">buildpacks.io</a> maintains a
+<em>specification</em></li>
+<li>Allow composition of “buildpacks”</li>
 <li>Transform application source code into OCI container images</li>
-<li>No Dockerfile required</li>
-<li>Provide a <strong>structured</strong>, <strong>repeatable</strong>
-build process</li>
+<li>Provide a multi-vendor <strong>structured</strong>,
+<strong>repeatable</strong> build process</li>
 <li>CNCF Incubating project</li>
 </ul>
+<aside class="notes">
+<ul>
+<li>We also provide both <code>pack</code> and <code>kpack</code> as
+tools</li>
+<li>These use buildpacks that follow the specification to produce OCI
+images</li>
+</ul>
+</aside>
 </section>
 <section id="cloud-native-buildpacks-implementations"
 class="slide level2">
 <h2>CLoud Native Buildpacks Implementations</h2>
-<h3 id="vendors">Vendors:</h3>
 <ul>
 <li>Heroku: <a
 href="https://elements.heroku.com/buildpacks">https://elements.heroku.com/buildpacks</a></li>
 <li>Paketo: <a href="https://paketo.io/">https://paketo.io/</a></li>
 <li>Google: <a
 href="https://docs.cloud.google.com/docs/buildpacks/overview">https://docs.cloud.google.com/docs/buildpacks/overview</a></li>
+<li>You!: Internal buildpacks in your organization</li>
 </ul>
-</section></section>
-<section>
-<section id="demo-building-a-java-application"
-class="title-slide slide level1">
-<h1>Demo: Building a Java Application</h1>
-
+<aside class="notes">
+<ul>
+<li>Application stacks supported
+<ul>
+<li>.Net, Python, Ruby, Java, TypeScript, …</li>
+<li>not Fortran (yet!)</li>
+<li>Main vendors</li>
+</ul></li>
+<li>Buildpacks are theoretically interoperable, practically not so</li>
+<li>Link to the demo on the next slide
+<ul>
+<li>paketo buildpacks - production-level examples</li>
+<li>Java used in demos</li>
+</ul></li>
+</ul>
+</aside>
 </section>
-<section id="the-goal" class="slide level2">
-<h2>The Goal</h2>
+<section id="demo-the-goal" class="slide level2">
+<h2>Demo: The Goal</h2>
 <p>Build a production-ready Java application image using:</p>
 <ul>
 <li>As an application developer
 <ul>
-<li><code>pack build</code> and <code>docker run</code></li>
+<li><code>pack build</code>: use our <code>pack</code> CLI to build an
+image</li>
+<li><code>docker run</code>: or <code>podman</code> deploy on k8s</li>
 </ul></li>
 <li>As a platform operator
 <ul>
 <li>a custom builder</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<ul>
+<li>Demonstrate the simplicity of the application developer
+experience</li>
+<li>Show how platform operators (DevOps, platform engineer, …) retain
+control of the experience</li>
+</ul>
+</aside>
 </section>
 <section id="application-developer" class="slide level2">
 <h2>Application Developer</h2>
@@ -207,30 +255,76 @@ class="title-slide slide level1">
 <ul>
 <li>(yes, it’s pre-scripted)</li>
 </ul></li>
-<li>Animated <code>gif</code> available at [demo/java/demo.gif]</li>
+<li>Animated <code>gif</code> available at <a
+href="demo/java//demo.gif">demo/java/demo.gif</a></li>
 </ul>
 <pre><code>$ pack build example --builder cuda-java-builder</code></pre>
 <div class="fragment">
 <pre><code>$ docker run --rm -it example
 Backend: CpuBackend
 Learned: y = 2.03x + 0.93  (loss: 0.000911)</code></pre>
+<aside class="notes">
+<ul>
+<li>Explain application first!
+<ul>
+<li>Minimal “hello world” for neural networks — trains a single-neuron
+network to learn the linear equation <code>y = 2x + 1</code>.</li>
+<li>The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact
+points on the line <code>y = 2x + 1</code>.</li>
+<li>The network is never told the formula — it has to figure out the
+slope (2) and intercept (1) itself.</li>
+<li>Maven for dependency management</li>
+<li>Local JDK 25 with Java 21 output</li>
+</ul></li>
+<li>Point out command</li>
+<li>Pause on configurable options (because <code>--verbose</code>)</li>
+</ul>
+</aside>
 </div>
 </section>
 <section id="platform-operator" class="slide level2">
 <h2>Platform Operator</h2>
 <ul>
+<li>DevOps/DevSecOps/Platform Engineers…</li>
 <li>We have control over the
 <strong><code>--builder</code></strong></li>
+<li><code>cuda-java-builder</code> is a custom builder</li>
 </ul>
-<h3 id="questions">Questions</h3>
+<aside class="notes">
 <ul>
-<li>What language stacks do we support in cusom images?</li>
-<li>What are the JDKs/JREs that we support in production?</li>
-<li>How much flexibility do we provide to application developers?</li>
+<li>Motivate why we might want a custom builder</li>
 </ul>
+</aside>
 </section>
-<section id="step-0---custom-buildrun-images" class="slide level2">
-<h2>Step 0 - Custom build/run images</h2>
+<section id="platform-operator-questions" class="slide level2">
+<h2>Platform Operator Questions</h2>
+<ul>
+<li>What is our corporate base image?</li>
+<li>What language stacks do we support in production images?</li>
+<li>What are the runtimes that we support in production?</li>
+<li>How much flexibility do we provide to application developers?</li>
+<li>How do I patch a security vulnerability?</li>
+<li>How do I bundle a proprietary layer onto the image?</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Even open-source projects standardize on base images
+<ul>
+<li>Debian, Ubuntu, Fedora, Scratch</li>
+</ul></li>
+<li>Developers are free to experiment with languages in dev
+<ul>
+<li>production needs support</li>
+</ul></li>
+<li>Control/Force migrations to newer JDKs, Python interpreters…</li>
+</ul>
+</aside>
+</section>
+<section id="platform-operator-answers" class="slide level2">
+<h2>Platform Operator Answers</h2>
+<ul>
+<li>What is our corporate base image?</li>
+</ul>
 <div class="columns">
 <div class="column" style="width:33%;">
 <ul>
@@ -254,172 +348,143 @@ class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb3-
 </div>
 </div>
 </section>
-<section id="step-1-create-a-custom-builder" class="slide level2">
-<h2>Step 1 — Create a Custom Builder</h2>
+<section id="platform-operator-answers-1" class="slide level2">
+<h2>Platform Operator Answers</h2>
+<ul>
+<li>What language stacks do we support in production images?</li>
+</ul>
 <div class="columns">
 <div class="column" style="width:33%;">
 <p>Define a <code>builder.toml</code> that references the Paketo Java
-buildpack:</p>
+buildpack</p>
 </div><div class="column" style="width:66%;">
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[build]</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-build:latest&quot;</span></span>
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[run.images]]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-run:latest&quot;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[run.images]]</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-run:latest&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[buildpacks]]</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uri</span> <span class="op">=</span> <span class="st">&quot;paketobuildpacks/java&quot;</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[[buildpacks]]</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uri</span> <span class="op">=</span> <span class="st">&quot;paketobuildpacks/java&quot;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">[[targets]]</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">os</span> <span class="op">=</span> <span class="st">&quot;linux&quot;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">arch</span> <span class="op">=</span> <span class="st">&quot;amd64&quot;</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">[[order]]</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">[[order.group]]</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span> <span class="op">=</span> <span class="st">&quot;paketo-buildpacks/java&quot;</span></span></code></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[[targets]]</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">os</span> <span class="op">=</span> <span class="st">&quot;linux&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">arch</span> <span class="op">=</span> <span class="st">&quot;amd64&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">[[order]]</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">[[order.group]]</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span> <span class="op">=</span> <span class="st">&quot;paketo-buildpacks/java&quot;</span></span></code></pre></div>
 </div>
 </div>
 </section>
-<section id="step-2-create-the-builder-image" class="slide level2">
-<h2>Step 2 — Create the Builder Image</h2>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> builder create cuda-java-builder <span class="dt">\</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--config</span> builder.toml</span></code></pre></div>
-<div class="fragment">
-<p>Verify it was created:</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> builder inspect cuda-java-builder</span></code></pre></div>
-</div>
-</section>
-<section id="step-3-build-the-java-application" class="slide level2">
-<h2>Step 3 — Build the Java Application</h2>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-java-app <span class="dt">\</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> cuda-java-builder <span class="dt">\</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./demo/java</span></code></pre></div>
-<div class="fragment">
-<pre><code>===&gt; DETECTING
-paketo-buildpacks/ca-certificates 3.8.3
-paketo-buildpacks/bellsoft-liberica 10.8.1
-paketo-buildpacks/maven          6.15.14
-paketo-buildpacks/executable-jar 6.10.3
-paketo-buildpacks/spring-boot    5.29.2
-===&gt; BUILDING
-...
-===&gt; EXPORTING
-Successfully built image my-java-app</code></pre>
-</div>
-</section>
-<section id="step-4-run-it" class="slide level2">
-<h2>Step 4 — Run It</h2>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-p</span> 8080:8080 my-java-app</span></code></pre></div>
-<p>. . . DEMO OUTPUT HERE</p>
-<p>Started Application in 2.3 seconds</p>
-<pre><code>
-## Platform Owners: You Own the Builder
+<section id="platform-operator-answers-2" class="slide level2">
+<h2>Platform Operator Answers</h2>
+<p>The following questions will be answered at the Buildpacks booth:</p>
+<ul>
+<li>What are the runtimes that we support in production?</li>
+<li>How much flexibility do we provide to application developers?</li>
+<li>How do I patch a security vulnerability?</li>
+<li>How do I bundle a proprietary layer onto the image?</li>
+</ul>
+<!--
+## Create the Builder Image
 
-As a platform operator, the custom builder gives you **complete control**:
-
-- **Pin specific buildpack versions** — reproducible builds across your org
-- **Curate the buildpack ecosystem** — only approved buildpacks in your builder
-- **Control the base images** — your security team manages the build &amp; run images
-- **Enforce compliance** — embed SBOMs, signing policies, and vulnerability scanning
+```bash
+pack builder create cuda-java-builder \
+  --config builder.toml
+```
 
 . . .
 
-&gt; Developers get a simple `pack build` command.
-&gt; Operators get full governance.
+Verify it was created:
 
-# AI &amp; Machine Learning
+```bash
+pack builder inspect cuda-java-builder
+```
 
-## The AI/ML Challenge
-
-Building AI/ML applications involves unique infrastructure requirements:
-
-- GPU drivers (NVIDIA CUDA)
-- Large frameworks (PyTorch, TensorFlow)
-- Complex native dependencies
-- Reproducible environments across dev and prod
-
-Buildpacks can help tame this complexity.
-
-## Approach: CUDA Base Image + Buildpacks
-</code></pre>
-<p>┌────────────────────────────────────────┐ │ App Image (OCI) │
-├────────────────────────────────────────┤ │ PyTorch Hello World
-Application │ ├────────────────────────────────────────┤ │ Python
-Buildpack Layers │ ├────────────────────────────────────────┤ │
-CUDA-enabled Base Image │ │ (nvidia/cuda:12.x-runtime-ubuntu22) │
-└────────────────────────────────────────┘</p>
-<pre><code>
-## Step 1 — Build a CUDA Base Image
-
-Use an **image extension** to generate a CUDA-capable run image:
-
-```dockerfile
-# run.Dockerfile — generated by the extension
-ARG base_image
-FROM ${base_image}
-
-# Install CUDA runtime libraries
-RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
-    cuda-cudart-12-4 \
-    libcublas-12-4 \
-    libcufft-12-4 \
-    libcurand-12-4 \
-    libcusparse-12-4 \
-    libcudnn9-cuda-12 \
-    &amp;&amp; rm -rf /var/lib/apt/lists/*
-
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}</code></pre>
+<aside class="notes">
+* run the builder inspect
+* point out that the `java` buildpack contains a bunch of others
+* some of which you may want to omit
+</aside>
+-->
 </section>
-<section id="step-2-the-pytorch-hello-world-app" class="slide level2">
-<h2>Step 2 — The PyTorch Hello World App</h2>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># app.py</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> platform</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Python: </span><span class="sc">{</span>platform<span class="sc">.</span>python_version()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;PyTorch: </span><span class="sc">{</span>torch<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;CUDA available: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>is_available()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> torch.cuda.is_available():</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">&quot;cuda&quot;</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;GPU: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_name(<span class="dv">0</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">&quot;cpu&quot;</span>)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a simple tensor and perform a computation</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> torch.randn(<span class="dv">3</span>, <span class="dv">3</span>, device<span class="op">=</span>device)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> torch.randn(<span class="dv">3</span>, <span class="dv">3</span>, device<span class="op">=</span>device)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> torch.matmul(x, y)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Result tensor (on </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">):</span><span class="ch">\n</span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    main()</span></code></pre></div>
+<section id="you-own-the-builder" class="slide level2">
+<h2>You Own the Builder</h2>
+<p>The custom builder gives you <strong>complete control</strong>:</p>
+<ul>
+<li><strong>Pin specific buildpack versions</strong></li>
+<li><strong>Curate the buildpack ecosystem</strong></li>
+<li><strong>Control the base images</strong></li>
+<li><strong>Enforce compliance</strong></li>
+</ul>
+<div class="fragment">
+<blockquote>
+<p>Developers get a simple <code>pack build</code> command.</p>
+</blockquote>
+<blockquote>
+<p>Operators get full governance.</p>
+</blockquote>
+<aside class="notes">
+<ul>
+<li><strong>Pin specific buildpack versions</strong> — reproducible
+builds across your org</li>
+<li><strong>Curate the buildpack ecosystem</strong> — only approved
+Buildpacks in your builder</li>
+<li><strong>Control the base images</strong> — your security team
+manages the build &amp; run images</li>
+<li><strong>Enforce compliance</strong> — embed SBOMs, signing policies,
+and vulnerability scanning</li>
+</ul>
+</aside>
+</div>
 </section>
-<section id="step-2-the-requirements-file" class="slide level2">
-<h2>Step 2 — The Requirements File</h2>
-<pre><code># requirements.txt
-torch&gt;=2.2.0
-torchvision&gt;=0.17.0
-numpy&gt;=1.26.0</code></pre>
+<section id="the-aiml-challenge" class="slide level2">
+<h2>The AI/ML Challenge</h2>
+<p>Building AI/ML applications involves unique infrastructure
+requirements:</p>
+<ul>
+<li>GPU drivers (NVIDIA CUDA)</li>
+<li>Large frameworks (PyTorch, TensorFlow)</li>
+<li>Complex native dependencies</li>
+<li>Reproducible environments across dev and prod</li>
+</ul>
+<p>Buildpacks can help tame this complexity.</p>
 </section>
-<section id="step-3-build-with-buildpacks" class="slide level2">
-<h2>Step 3 — Build with Buildpacks</h2>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./pytorch-hello-world</span></code></pre></div>
+<section id="supporting-cuda" class="slide level2">
+<h2>Supporting CUDA</h2>
+<ul>
+<li>Separate builders - see Java demo
+<code>pack build --builder ...</code></li>
+</ul>
+<p>OR</p>
+<ul>
+<li>Use an <strong>image extension</strong> to generate a CUDA-capable
+run image:
+<ul>
+<li>at build time, install the CUDA libraries</li>
+<li><code>pack build --extensions cuda ...</code></li>
+</ul></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Tradeoffs
+<ul>
+<li>separate builders places onus on app developers to choose correct
+builder</li>
+<li>image extensions loose <em>rebase</em></li>
+<li>image extensions not yet supported on <code>kpack</code></li>
+</ul></li>
+</ul>
+</aside>
+</section>
+<section id="step-2-build-with-buildpacks" class="slide level2">
+<h2>Step 2 — Build with Buildpacks</h2>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./pytorch-hello-world</span></code></pre></div>
 <div class="fragment">
 <pre><code>===&gt; DETECTING
-paketo-buildpacks/cpython     2.x.x
+paketo-buildpacks/cpython      2.x.x
 paketo-buildpacks/pip          1.x.x
 paketo-buildpacks/pip-install  1.x.x
 cuda-extension                 0.1.0
@@ -431,10 +496,10 @@ cuda-extension                 0.1.0
 Successfully built image my-pytorch-app</code></pre>
 </div>
 </section>
-<section id="step-4-run-with-gpu-access" class="slide level2">
-<h2>Step 4 — Run with GPU Access</h2>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
+<section id="step-3-run-with-gpu-access" class="slide level2">
+<h2>Step 3 — Run with GPU Access</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
 <div class="fragment">
 <pre><code>Python: 3.14.3
 PyTorch: 2.2.1+cu124
@@ -451,10 +516,10 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 <ul>
 <li><strong>Reproducibility</strong> — consistent CUDA + Python
 environments</li>
-<li><strong>Security</strong> — automatic base image updates without
-rebuilding</li>
 <li><strong>Separation of concerns</strong> — data scientists write
 Python, platform teams manage CUDA</li>
+<li><strong>Security</strong> — automatic base image updates without
+rebuilding application</li>
 <li><strong>Rebase</strong> — update GPU drivers in the base image
 without rebuilding application layers
 <ul>
@@ -467,7 +532,7 @@ without rebuilding application layers
 like any other buildpacks workflow.</p>
 </blockquote>
 </div>
-</section></section>
+</section>
 <section>
 <section id="towards-1.0" class="title-slide slide level1">
 <h1>Towards 1.0</h1>
@@ -483,62 +548,17 @@ bump</li>
 <li><strong>A promise</strong> to the ecosystem: safe to build on, safe
 to depend on</li>
 </ul>
-<div class="fragment">
-<p>The current versions:</p>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Current</th>
-<th>Target</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Buildpack API</td>
-<td>0.13</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>Platform API</td>
-<td>0.16</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>Lifecycle</td>
-<td>0.20.x</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>Pack CLI</td>
-<td>0.40.x</td>
-<td>1.0</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="key-components-driving-1.0" class="slide level2">
-<h2>Key Components Driving 1.0</h2>
-<pre><code>  ┌──────────────────────────────────────────┐
-  │              Spec (spec repo)            │
-  │  Buildpack API · Platform API · Distro   │
-  └──────────┬───────────────┬───────────────┘
-             │               │
-    ┌────────▼────┐   ┌──────▼──────┐
-    │  Lifecycle  │   │   Pack CLI  │
-    │  (0.20.x)  │   │  (0.40.x)   │
-    └─────────────┘   └─────────────┘</code></pre>
+<aside class="notes">
 <ul>
 <li>The Spec defines contracts. The Lifecycle implements them.</li>
 <li>Pack CLI is the primary user-facing tool.</li>
 </ul>
+</aside>
 </section>
 <section id="breaking-changes-that-must-land-before-1.0"
 class="slide level2">
 <h2>Breaking Changes That Must Land Before 1.0</h2>
-<p>These approved RFCs represent <strong>intentional breaking
-changes</strong> — they must ship before the API is frozen:</p>
+<p>Approved RFCs <strong>intentional breaking changes</strong>:</p>
 <ul>
 <li><strong>RFC #0096 — Remove Stacks and Mixins</strong>
 <ul>
@@ -553,12 +573,13 @@ changes</strong> — they must ship before the API is frozen:</p>
 <li><strong>RFC #0105 — Dockerfiles (Image Extensions)</strong>
 <ul>
 <li>Allows customizing build/run images via Dockerfiles</li>
-<li>Critical for use cases like CUDA, as we just saw</li>
+<li>For use cases like CUDA, as we just saw</li>
 </ul></li>
 </ul>
 </section>
 <section id="active-rfcs-shaping-the-future" class="slide level2">
 <h2>Active RFCs Shaping the Future</h2>
+<div style="font-size: 75%;">
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -605,48 +626,36 @@ changes</strong> — they must ship before the API is frozen:</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="lifecycle-0.21.0-the-next-milestone" class="slide level2">
-<h2>Lifecycle 0.21.0 — The Next Milestone</h2>
-<p>8 open issues targeting the next lifecycle release:</p>
-<ul>
-<li><strong>Export run image metadata</strong> — richer output image
-labels</li>
-<li><strong>Report.toml enhancements</strong> — more build data for
-CI/CD</li>
-<li><strong>Corrupt cache recovery</strong> — security hardening</li>
-<li><strong>containerd socket export</strong> — direct export to
-containerd</li>
-<li><strong>Self-signed certificate support</strong> —
-enterprise-friendly Kubernetes</li>
-<li><strong>FreeBSD support</strong> — expanding platform reach</li>
-<li><strong>OCI layout + extensions</strong> — run image extensions with
-OCI layout export</li>
-</ul>
-</section>
-<section id="pack-cli-0.41.0-whats-coming" class="slide level2">
-<h2>Pack CLI 0.41.0 — What’s Coming</h2>
-<p>24 open issues in the 0.41.0 milestone, including:</p>
-<ul>
-<li><strong>Platform API 0.14 support</strong> — <code>-run</code> flag
-in restorer</li>
-<li><strong>Podman compatibility</strong> — fixing docker host
-issues</li>
-<li><strong><code>pack extension new</code></strong> — scaffolding for
-image extensions</li>
-<li><strong>Cosign image signing</strong> — sign
-<code>buildpacksio/pack</code> images + SBOM</li>
-<li><strong>containerd daemon support</strong> — publish-then-pull
-workaround</li>
-<li><strong><code>project.toml</code> directory exclusion</strong> — fix
-glob behavior</li>
-<li><strong><code>try-always</code> pull policy</strong> — new pull
-policy option</li>
-</ul>
-</section>
-<section id="spec-stabilization-roadmap" class="slide level2">
-<h2>Spec Stabilization Roadmap</h2>
-<pre><code> Now          ──────────▶          1.0
+</div>
+<!--
+## Lifecycle 0.21.0 — The Next Milestone
+
+8 open issues targeting the next lifecycle release:
+
+- **Export run image metadata** — richer output image labels
+- **Report.toml enhancements** — more build data for CI/CD
+- **Corrupt cache recovery** — security hardening
+- **containerd socket export** — direct export to containerd
+- **Self-signed certificate support** — enterprise-friendly Kubernetes
+- **FreeBSD support** — expanding platform reach
+- **OCI layout + extensions** — run image extensions with OCI layout export
+
+## Pack CLI 0.41.0 — What's Coming
+
+24 open issues in the 0.41.0 milestone, including:
+
+- **Platform API 0.14 support** — `-run` flag in restorer
+- **Podman compatibility** — fixing docker host issues
+- **`pack extension new`** — scaffolding for image extensions
+- **Cosign image signing** — sign `buildpacksio/pack` images + SBOM
+- **containerd daemon support** — publish-then-pull workaround
+- **`project.toml` directory exclusion** — fix glob behavior
+- **`try-always` pull policy** — new pull policy option
+
+## Spec Stabilization Roadmap
+
+```
+ Now          ──────────▶          1.0
   │                                 │
   ├─ Buildpack API 0.13             │
   │   └── PATH delimiter fix       │
@@ -659,7 +668,9 @@ policy option</li>
   │   └── Multi-platform builders  │
   │                                 │
   └── Remove deprecated features ──┘
-      (Stacks, Mixins, Shell Procs)</code></pre>
+      (Stacks, Mixins, Shell Procs)
+```
+-->
 </section>
 <section id="what-1.0-means-for-you" class="slide level2">
 <h2>What 1.0 Means for You</h2>
@@ -677,14 +688,15 @@ policy option</li>
 <li>First-class SBOM and signing support</li>
 </ul>
 </div>
-<div class="fragment">
+</section>
+<section id="what-1.0-means-for-you-1" class="slide level2">
+<h2>What 1.0 Means for You</h2>
 <p><strong>For Platform Operators:</strong></p>
 <ul>
 <li>Stable Platform API to integrate against</li>
 <li>Builder spec for governance</li>
 <li>OCI-native — containerd, Kubernetes-ready</li>
 </ul>
-</div>
 </section>
 <section id="how-to-get-involved" class="slide level2">
 <h2>How to Get Involved</h2>
@@ -695,23 +707,21 @@ href="https://github.com/buildpacks">github.com/buildpacks</a></li>
 href="https://github.com/buildpacks/rfcs">github.com/buildpacks/rfcs</a>
 — propose and discuss changes</li>
 <li><strong>Slack:</strong> <a
-href="https://slack.buildpacks.io">slack.buildpacks.io</a> — join the
-community</li>
+href="https://cloud-native.slack.com/">cloud-native.slack.com</a> — join
+the community</li>
 <li><strong>Working Group:</strong> Weekly calls — all are welcome</li>
 </ul>
-<div class="fragment">
 <blockquote>
 <p>We’re a CNCF project — contributions from every perspective make us
 stronger.</p>
 </blockquote>
-</div>
 </section></section>
 <section>
 <section id="thank-you" class="title-slide slide level1">
 <h1>Thank You</h1>
 
 </section>
-<section id="questions-1" class="slide level2">
+<section id="questions" class="slide level2">
 <h2>Questions?</h2>
 <p><strong>Buildpacks: Towards 1.0, AI and Other Things</strong></p>
 <ul>
@@ -720,7 +730,7 @@ href="https://buildpacks.io/docs">buildpacks.io/docs</a></li>
 <li>GitHub: <a
 href="https://github.com/buildpacks">github.com/buildpacks</a></li>
 <li>Slack: <a
-href="https://slack.buildpacks.io">slack.buildpacks.io</a></li>
+href="https://cloud-native.slack.com/">cloud-native.slack.com</a></li>
 </ul>
 </section></section>
 <section>
@@ -743,9 +753,29 @@ href="https://slack.buildpacks.io">slack.buildpacks.io</a></li>
 </section>
 <section id="buildpacks-rebase" class="slide level2">
 <h2>Buildpacks Rebase</h2>
-<ul>
-<li></li>
-</ul>
+<p><img data-src="images/rebase.svg" /></p>
+<p>Note: <strong>registry only</strong> operation</p>
+</section>
+<section id="cuda-image-extensions" class="slide level2">
+<h2>CUDA Image Extensions</h2>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run.Dockerfile — generated by the extension</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> base_image</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> ${base_image}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Install CUDA runtime libraries</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    cuda-cudart-12-4 <span class="dt">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    libcublas-12-4 <span class="dt">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    libcufft-12-4 <span class="dt">\</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    libcurand-12-4 <span class="dt">\</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    libcusparse-12-4 <span class="dt">\</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    libcudnn9-cuda-12 <span class="dt">\</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_VISIBLE_DEVICES=all</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_DRIVER_CAPABILITIES=compute,utility</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}</span></code></pre></div>
 </section></section>
     </div>
   </div>
