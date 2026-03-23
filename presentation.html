@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Cloud Native Buildpacks">
-  <meta name="dcterms.date" content="2026-01-01">
   <title>Buildpacks: Towards 1.0, AI and Other Things</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -96,21 +95,22 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/theme/moon.css" id="theme">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/theme/white.css" id="theme">
   <link rel="stylesheet" href="tweaks.css"/>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide">
+<section id="title-slide" data-background-image="images/bg-title.png" data-background-size="contain">
   <h1 class="title">Buildpacks: Towards 1.0, AI and Other Things</h1>
   <p class="author">Cloud Native Buildpacks</p>
-  <p class="date">2026</p>
+  <p class="date">KubeCon EU 2026</p>
 </section>
 
-<section id="who-am-i" class="slide level2">
-<h2>Who am I</h2>
+<section id="who-am-i" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Who am I</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
 <ul>
@@ -130,8 +130,9 @@ style="width:40.0%" /></p>
 </div>
 </div>
 </section>
-<section id="about-this-talk" class="slide level2">
-<h2>About This Talk</h2>
+<section id="about-this-talk" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">About This Talk</h2>
 <p>This session will explore two main threads:</p>
 <ul>
 <li><strong>The Road to 1.0</strong> — achieving stability and feature
@@ -144,40 +145,15 @@ build and deploy AI-driven applications</li>
 a custom builder.</p>
 </div>
 </section>
-<section id="agenda" class="slide level2">
-<h2>Agenda</h2>
-<table>
-<thead>
-<tr>
-<th>Section</th>
-<th>Time</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Buildpacks Demo — Java and Custom Builder</td>
-<td>~10 min</td>
-</tr>
-<tr>
-<td>AI &amp; ML — CUDA Base Images</td>
-<td>~10 min</td>
-</tr>
-<tr>
-<td>Towards 1.0 — Roadmap and Key Milestones</td>
-<td>~5 min</td>
-</tr>
-<tr>
-<td>Q &amp; A</td>
-<td>~5 min</td>
-</tr>
-</tbody>
-</table>
+<section id="who-has-used-buildpacks" class="slide level2"
+data-background-image="images/bg-section-windmill.png">
+<h2 data-background-image="images/bg-section-windmill.png">Who has used
+Buildpacks?</h2>
 </section>
-<section id="who-has-used-buildpacks" class="slide level2">
-<h2>Who has used Buildpacks?</h2>
-</section>
-<section id="what-are-cloud-native-buildpacks" class="slide level2">
-<h2>What Are Cloud Native Buildpacks?</h2>
+<section id="what-are-cloud-native-buildpacks" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">What Are Cloud Native
+Buildpacks?</h2>
 <ul>
 <li><a href="https://buildpacks.io">buildpacks.io</a> maintains a
 <em>specification</em></li>
@@ -197,8 +173,9 @@ images</li>
 </aside>
 </section>
 <section id="cloud-native-buildpacks-implementations"
-class="slide level2">
-<h2>CLoud Native Buildpacks Implementations</h2>
+class="slide level2" data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">CLoud Native
+Buildpacks Implementations</h2>
 <ul>
 <li>Heroku: <a
 href="https://elements.heroku.com/buildpacks">https://elements.heroku.com/buildpacks</a></li>
@@ -224,8 +201,10 @@ href="https://docs.cloud.google.com/docs/buildpacks/overview">https://docs.cloud
 </ul>
 </aside>
 </section>
-<section id="demo-the-goal" class="slide level2">
-<h2>Demo: The Goal</h2>
+<section id="demo-the-goal" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">Demo: The
+Goal</h2>
 <p>Build a production-ready Java application image using:</p>
 <ul>
 <li>As an application developer
@@ -248,8 +227,10 @@ control of the experience</li>
 </ul>
 </aside>
 </section>
-<section id="application-developer" class="slide level2">
-<h2>Application Developer</h2>
+<section id="application-developer" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Application
+Developer</h2>
 <ul>
 <li>LIVE(ish) Demo
 <ul>
@@ -282,8 +263,9 @@ slope (2) and intercept (1) itself.</li>
 </aside>
 </div>
 </section>
-<section id="platform-operator" class="slide level2">
-<h2>Platform Operator</h2>
+<section id="platform-operator" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Platform Operator</h2>
 <ul>
 <li>DevOps/DevSecOps/Platform Engineers…</li>
 <li>We have control over the
@@ -296,8 +278,10 @@ slope (2) and intercept (1) itself.</li>
 </ul>
 </aside>
 </section>
-<section id="platform-operator-questions" class="slide level2">
-<h2>Platform Operator Questions</h2>
+<section id="platform-operator-questions" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Platform Operator
+Questions</h2>
 <ul>
 <li>What is our corporate base image?</li>
 <li>What language stacks do we support in production images?</li>
@@ -320,8 +304,10 @@ slope (2) and intercept (1) itself.</li>
 </ul>
 </aside>
 </section>
-<section id="platform-operator-answers" class="slide level2">
-<h2>Platform Operator Answers</h2>
+<section id="platform-operator-answers" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Platform Operator
+Answers</h2>
 <ul>
 <li>What is our corporate base image?</li>
 </ul>
@@ -348,8 +334,10 @@ class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb3-
 </div>
 </div>
 </section>
-<section id="platform-operator-answers-1" class="slide level2">
-<h2>Platform Operator Answers</h2>
+<section id="platform-operator-answers-1" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Platform Operator
+Answers</h2>
 <ul>
 <li>What language stacks do we support in production images?</li>
 </ul>
@@ -375,8 +363,10 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="
 </div>
 </div>
 </section>
-<section id="platform-operator-answers-2" class="slide level2">
-<h2>Platform Operator Answers</h2>
+<section id="platform-operator-answers-2" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Platform Operator
+Answers</h2>
 <p>The following questions will be answered at the Buildpacks booth:</p>
 <ul>
 <li>What are the runtimes that we support in production?</li>
@@ -407,8 +397,10 @@ pack builder inspect cuda-java-builder
 </aside>
 -->
 </section>
-<section id="you-own-the-builder" class="slide level2">
-<h2>You Own the Builder</h2>
+<section id="you-own-the-builder" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">You Own the
+Builder</h2>
 <p>The custom builder gives you <strong>complete control</strong>:</p>
 <ul>
 <li><strong>Pin specific buildpack versions</strong></li>
@@ -437,8 +429,10 @@ and vulnerability scanning</li>
 </aside>
 </div>
 </section>
-<section id="the-aiml-challenge" class="slide level2">
-<h2>The AI/ML Challenge</h2>
+<section id="the-aiml-challenge" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">The AI/ML
+Challenge</h2>
 <p>Building AI/ML applications involves unique infrastructure
 requirements:</p>
 <ul>
@@ -449,8 +443,9 @@ requirements:</p>
 </ul>
 <p>Buildpacks can help tame this complexity.</p>
 </section>
-<section id="supporting-cuda" class="slide level2">
-<h2>Supporting CUDA</h2>
+<section id="supporting-cuda" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Supporting CUDA</h2>
 <ul>
 <li>Separate builders - see Java demo
 <code>pack build --builder ...</code></li>
@@ -476,8 +471,10 @@ builder</li>
 </ul>
 </aside>
 </section>
-<section id="step-2-build-with-buildpacks" class="slide level2">
-<h2>Step 2 — Build with Buildpacks</h2>
+<section id="step-2-build-with-buildpacks" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Step 2 — Build with
+Buildpacks</h2>
 <div class="sourceCode" id="cb5"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
@@ -496,8 +493,10 @@ cuda-extension                 0.1.0
 Successfully built image my-pytorch-app</code></pre>
 </div>
 </section>
-<section id="step-3-run-with-gpu-access" class="slide level2">
-<h2>Step 3 — Run with GPU Access</h2>
+<section id="step-3-run-with-gpu-access" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Step 3 — Run with GPU
+Access</h2>
 <div class="sourceCode" id="cb7"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
 <div class="fragment">
@@ -511,8 +510,10 @@ tensor([[ 0.4521, -1.2345,  0.8901],
         [-0.3456,  0.7890, -1.0123]], device=&#39;cuda:0&#39;)</code></pre>
 </div>
 </section>
-<section id="why-buildpacks-for-aiml" class="slide level2">
-<h2>Why Buildpacks for AI/ML?</h2>
+<section id="why-buildpacks-for-aiml" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">Why Buildpacks
+for AI/ML?</h2>
 <ul>
 <li><strong>Reproducibility</strong> — consistent CUDA + Python
 environments</li>
@@ -534,8 +535,9 @@ like any other buildpacks workflow.</p>
 </div>
 </section>
 <section>
-<section id="towards-1.0" class="title-slide slide level1">
-<h1>Towards 1.0</h1>
+<section id="towards-1.0" class="title-slide slide level1"
+data-background-image="images/bg-content.png">
+<h1 data-background-image="images/bg-content.png">Towards 1.0</h1>
 
 </section>
 <section id="what-does-1.0-mean" class="slide level2">
@@ -555,9 +557,10 @@ to depend on</li>
 </ul>
 </aside>
 </section>
-<section id="breaking-changes-that-must-land-before-1.0"
-class="slide level2">
-<h2>Breaking Changes That Must Land Before 1.0</h2>
+<section id="breaking-changes-to-deliver-before-1.0"
+class="slide level2" data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Breaking Changes to
+Deliver Before 1.0</h2>
 <p>Approved RFCs <strong>intentional breaking changes</strong>:</p>
 <ul>
 <li><strong>RFC #0096 — Remove Stacks and Mixins</strong>
@@ -672,8 +675,10 @@ class="slide level2">
 ```
 -->
 </section>
-<section id="what-1.0-means-for-you" class="slide level2">
-<h2>What 1.0 Means for You</h2>
+<section id="what-1.0-means-for-you" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">What 1.0 Means
+for You</h2>
 <p><strong>For Application Developers:</strong></p>
 <ul>
 <li>Stable CLI and build experience — no surprises</li>
@@ -689,8 +694,10 @@ class="slide level2">
 </ul>
 </div>
 </section>
-<section id="what-1.0-means-for-you-1" class="slide level2">
-<h2>What 1.0 Means for You</h2>
+<section id="what-1.0-means-for-you-1" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">What 1.0 Means
+for You</h2>
 <p><strong>For Platform Operators:</strong></p>
 <ul>
 <li>Stable Platform API to integrate against</li>
@@ -721,8 +728,9 @@ stronger.</p>
 <h1>Thank You</h1>
 
 </section>
-<section id="questions" class="slide level2">
-<h2>Questions?</h2>
+<section id="questions" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">Questions?</h2>
 <p><strong>Buildpacks: Towards 1.0, AI and Other Things</strong></p>
 <ul>
 <li>Docs: <a

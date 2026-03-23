@@ -1,8 +1,13 @@
-% Buildpacks: Towards 1.0, AI and Other Things
-% Cloud Native Buildpacks
-% 2026
+---
+title: "Buildpacks: Towards 1.0, AI and Other Things"
+author: Aidan Delaney
+date: KubeCon EU 2026
+title-slide-attributes:
+    data-background-image: "images/bg-title.png"
+    data-background-size: contain
+---
 
-## Who am I
+## Who am I {data-background-image="images/bg-content.png"}
 
 :::: {.columns}
 ::: {.column width="40%"}
@@ -19,7 +24,7 @@
 :::
 ::::
 
-## About This Talk
+## About This Talk {data-background-image="images/bg-content.png"}
 
 This session will explore two main threads:
 
@@ -30,18 +35,9 @@ This session will explore two main threads:
 
 Along the way, we'll do a live demo building a Java application with a custom builder.
 
-## Agenda
+## Who has used Buildpacks? {data-background-image="images/bg-section-windmill.png"}
 
-| Section | Time |
-|---------|------|
-| Buildpacks Demo — Java and Custom Builder | ~10 min |
-| AI & ML — CUDA Base Images | ~10 min |
-| Towards 1.0 — Roadmap and Key Milestones | ~5 min |
-| Q & A | ~5 min |
-
-## Who has used Buildpacks?
-
-## What Are Cloud Native Buildpacks?
+## What Are Cloud Native Buildpacks? {data-background-image="images/bg-content.png"}
 
 - [buildpacks.io](https://buildpacks.io) maintains a _specification_
 - Allow composition of "buildpacks"
@@ -54,7 +50,7 @@ Along the way, we'll do a live demo building a Java application with a custom bu
 * These use buildpacks that follow the specification to produce OCI images
 </aside>
 
-## CLoud Native Buildpacks Implementations
+## CLoud Native Buildpacks Implementations {data-background-image="images/bg-content.png"}
 
 - Heroku: [https://elements.heroku.com/buildpacks](https://elements.heroku.com/buildpacks)
 - Paketo: [https://paketo.io/](https://paketo.io/)
@@ -72,7 +68,7 @@ Along the way, we'll do a live demo building a Java application with a custom bu
     - Java used in demos
 </aside>
 
-## Demo: The Goal
+## Demo: The Goal {data-background-image="images/bg-content-header.png"}
 
 Build a production-ready Java application image using:
 
@@ -87,7 +83,7 @@ Build a production-ready Java application image using:
 * Show how platform operators (DevOps, platform engineer, ...) retain control of the experience
 </aside>
 
-## Application Developer
+## Application Developer {data-background-image="images/bg-content.png"}
 
 * LIVE(ish) Demo
   - (yes, it's pre-scripted)
@@ -116,7 +112,7 @@ Learned: y = 2.03x + 0.93  (loss: 0.000911)
 * Pause on configurable options (because `--verbose`)
 </aside>
 
-## Platform Operator
+## Platform Operator {data-background-image="images/bg-content.png"}
 
 * DevOps/DevSecOps/Platform Engineers...
 * We have control over the **`--builder`**
@@ -126,7 +122,7 @@ Learned: y = 2.03x + 0.93  (loss: 0.000911)
 * Motivate why we might want a custom builder
 </aside>
 
-## Platform Operator Questions
+## Platform Operator Questions {data-background-image="images/bg-content.png"}
 
 * What is our corporate base image?
 * What language stacks do we support in production images?
@@ -143,7 +139,7 @@ Learned: y = 2.03x + 0.93  (loss: 0.000911)
 * Control/Force migrations to newer JDKs, Python interpreters...
 </aside>
 
-## Platform Operator Answers
+## Platform Operator Answers {data-background-image="images/bg-content.png"}
 
 * What is our corporate base image?
 
@@ -171,7 +167,7 @@ USER ${cnb_uid}:${cnb_gid}
 ::::
 
 
-## Platform Operator Answers
+## Platform Operator Answers {data-background-image="images/bg-content.png"}
 
 * What language stacks do we support in production images?
 
@@ -198,7 +194,7 @@ Define a `builder.toml` that references the Paketo Java buildpack
 :::
 ::::
 
-## Platform Operator Answers
+## Platform Operator Answers {data-background-image="images/bg-content.png"}
 
 The following questions will be answered at the Buildpacks booth:
 
@@ -229,7 +225,7 @@ pack builder inspect cuda-java-builder
 * some of which you may want to omit
 </aside>
 -->
-## You Own the Builder
+## You Own the Builder {data-background-image="images/bg-content.png"}
 
 The custom builder gives you **complete control**:
 
@@ -251,7 +247,7 @@ The custom builder gives you **complete control**:
 - **Enforce compliance** — embed SBOMs, signing policies, and vulnerability scanning
 </aside>
 
-## The AI/ML Challenge
+## The AI/ML Challenge {data-background-image="images/bg-content.png"}
 
 Building AI/ML applications involves unique infrastructure requirements:
 
@@ -262,7 +258,7 @@ Building AI/ML applications involves unique infrastructure requirements:
 
 Buildpacks can help tame this complexity.
 
-## Supporting CUDA
+## Supporting CUDA {data-background-image="images/bg-content.png"}
 
 * Separate builders - see Java demo
   `pack build --builder ...`
@@ -280,7 +276,7 @@ OR
   - image extensions not yet supported on `kpack`
 </aside>
 
-## Step 2 — Build with Buildpacks
+## Step 2 — Build with Buildpacks {data-background-image="images/bg-content.png"}
 
 ```bash
 pack build my-pytorch-app \
@@ -304,7 +300,7 @@ cuda-extension                 0.1.0
 Successfully built image my-pytorch-app
 ```
 
-## Step 3 — Run with GPU Access
+## Step 3 — Run with GPU Access {data-background-image="images/bg-content.png"}
 
 ```bash
 docker run --rm --gpus all my-pytorch-app
@@ -323,7 +319,7 @@ tensor([[ 0.4521, -1.2345,  0.8901],
         [-0.3456,  0.7890, -1.0123]], device='cuda:0')
 ```
 
-## Why Buildpacks for AI/ML?
+## Why Buildpacks for AI/ML? {data-background-image="images/bg-content-header.png"}
 
 - **Reproducibility** — consistent CUDA + Python environments
 - **Separation of concerns** — data scientists write Python, platform teams manage CUDA
@@ -335,7 +331,7 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 
 > The CUDA layer and application layer are managed independently — just like any other buildpacks workflow.
 
-# Towards 1.0
+# Towards 1.0 {data-background-image="images/bg-content.png"}
 
 ## What Does 1.0 Mean?
 
@@ -348,7 +344,7 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 * Pack CLI is the primary user-facing tool.
 </aside>
 
-## Breaking Changes That Must Land Before 1.0
+## Breaking Changes to Deliver Before 1.0 {data-background-image="images/bg-content.png"}
 
 Approved RFCs **intentional breaking changes**:
 
@@ -421,7 +417,7 @@ Approved RFCs **intentional breaking changes**:
       (Stacks, Mixins, Shell Procs)
 ```
 -->
-## What 1.0 Means for You
+## What 1.0 Means for You {data-background-image="images/bg-content-header.png"}
 
 **For Application Developers:**
 
@@ -437,7 +433,7 @@ Approved RFCs **intentional breaking changes**:
 - Image extensions for advanced customization
 - First-class SBOM and signing support
 
-## What 1.0 Means for You
+## What 1.0 Means for You {data-background-image="images/bg-content-header.png"}
 
 **For Platform Operators:**
 
@@ -456,7 +452,7 @@ Approved RFCs **intentional breaking changes**:
 
 # Thank You
 
-## Questions?
+## Questions? {data-background-image="images/bg-content-header.png"}
 
 **Buildpacks: Towards 1.0, AI and Other Things**
 
