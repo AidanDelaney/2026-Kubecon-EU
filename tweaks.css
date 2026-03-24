@@ -15,12 +15,17 @@
   height: 100%;
 }
 
+/* --- Content-header slides: white title --- */
+.reveal .slides section[data-background-image="images/bg-content-header.png"] h2 {
+  color: white;
+}
+
 /* --- Title slide: white text over background image, offset right --- */
 #title-slide .title,
 #title-slide .author,
 #title-slide .date {
   color: white;
-  margin-left: 2em;
+  margin-left: 50px;
 }
 
 /* --- Title: anchored top-left, compact --- */

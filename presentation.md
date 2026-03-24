@@ -35,7 +35,64 @@ This session will explore two main threads:
 
 Along the way, we'll do a live demo building a Java application with a custom builder.
 
-## Who has used Buildpacks? {data-background-image="images/bg-section-windmill.png"}
+## {data-background-image="images/bg-section-windmill.png"}
+
+<br/>
+<br/>
+[Who has experience with Cloud Native Buildpacks?]{style="color: white;"}
+
+```console {style="color: white;"}
+$ pack build my-image
+```
+
+```console  {style="color: white;"}
+$ mvn spring-boot:build-image
+```
+
+```console  {style="color: white;"}
+$ kubectl apply -f my-kpack-image.yaml
+```
+
+## Demo: The Goal {data-background-image="images/bg-content-header.png"}
+
+Build a production-ready Java application image using:
+
+* As an application developer
+  - `pack build`: use our `pack` CLI to build an image
+  - `docker run`: or `podman` or deploy on k8s
+
+<aside class="notes">
+* Demonstrate the simplicity of the application developer experience
+</aside>
+
+## Application Developer {data-background-image="images/bg-content.png"}
+
+* LIVE(ish) Demo
+  - (yes, it's pre-scripted)
+* Animated `gif` available at [demo/java/demo.gif](demo/java//demo.gif)
+
+```
+$ pack build example --builder cuda-java-builder
+```
+
+. . . 
+
+```
+$ docker run --rm -it example
+Backend: CpuBackend
+Learned: y = 2.03x + 0.93  (loss: 0.000911)
+```
+
+<aside class="notes">
+* Explain application first!
+    - Minimal "hello world" for neural networks — trains a single-neuron network to learn the linear equation `y = 2x + 1`.
+    - The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact points on the line `y = 2x + 1`.
+    - The network is never told the formula — it has to figure out the slope (2) and intercept (1) itself.
+    - Maven for dependency management
+    - Local JDK 25 with Java 21 output
+* Point out command
+* Pause on configurable options (because `--verbose`)
+</aside>
 
 ## What Are Cloud Native Buildpacks? {data-background-image="images/bg-content.png"}
 
@@ -68,50 +125,6 @@ Along the way, we'll do a live demo building a Java application with a custom bu
     - Java used in demos
 </aside>
 
-## Demo: The Goal {data-background-image="images/bg-content-header.png"}
-
-Build a production-ready Java application image using:
-
-* As an application developer
-  - `pack build`: use our `pack` CLI to build an image
-  - `docker run`: or `podman` deploy on k8s
-* As a platform operator
-  - a custom builder
-
-<aside class="notes">
-* Demonstrate the simplicity of the application developer experience
-* Show how platform operators (DevOps, platform engineer, ...) retain control of the experience
-</aside>
-
-## Application Developer {data-background-image="images/bg-content.png"}
-
-* LIVE(ish) Demo
-  - (yes, it's pre-scripted)
-* Animated `gif` available at [demo/java/demo.gif](demo/java//demo.gif)
-
-```
-$ pack build example --builder cuda-java-builder
-```
-
-. . . 
-
-```
-$ docker run --rm -it example
-Backend: CpuBackend
-Learned: y = 2.03x + 0.93  (loss: 0.000911)
-```
-
-<aside class="notes">
-* Explain application first!
-    - Minimal "hello world" for neural networks — trains a single-neuron network to learn the linear equation `y = 2x + 1`.
-    - The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact points on the line `y = 2x + 1`.
-    - The network is never told the formula — it has to figure out the slope (2) and intercept (1) itself.
-    - Maven for dependency management
-    - Local JDK 25 with Java 21 output
-* Point out command
-* Pause on configurable options (because `--verbose`)
-</aside>
-
 ## Platform Operator {data-background-image="images/bg-content.png"}
 
 * DevOps/DevSecOps/Platform Engineers...
@@ -129,7 +142,7 @@ Learned: y = 2.03x + 0.93  (loss: 0.000911)
 * What are the runtimes that we support in production?
 * How much flexibility do we provide to application developers?
 * How do I patch a security vulnerability?
-* How do I bundle a proprietary layer onto the image?
+* How do I bundle a proprietary layer?
 
 <aside class="notes">
 * Even open-source projects standardize on base images
@@ -331,7 +344,11 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 
 > The CUDA layer and application layer are managed independently — just like any other buildpacks workflow.
 
-# Towards 1.0 {data-background-image="images/bg-content.png"}
+## {data-background-image="images/bg-section-windmill.png"}
+
+<br/>
+<br/>
+[Towards 1.0]{style="color: white;font-size: 3em;"}
 
 ## What Does 1.0 Mean?
 
@@ -344,21 +361,22 @@ tensor([[ 0.4521, -1.2345,  0.8901],
 * Pack CLI is the primary user-facing tool.
 </aside>
 
-## Breaking Changes to Deliver Before 1.0 {data-background-image="images/bg-content.png"}
+## Breaking Changes to Deliver Before 1.0
 
 Approved RFCs **intentional breaking changes**:
 
+![](images/timline-to-1.0.png)
+
+<aside class="notes">
 - **RFC #0096 — Remove Stacks and Mixins**
   - Stacks are replaced by build/run image targets
-  - Simplifies the mental model significantly
 
 - **RFC #0093 — Remove Shell Processes**
   - All processes become direct processes
-  - Improved security and signal handling
 
 - **RFC #0105 — Dockerfiles (Image Extensions)**
   - Allows customizing build/run images via Dockerfiles
-  - For use cases like CUDA, as we just saw
+</aside>
 
 ## Active RFCs Shaping the Future
 
@@ -369,7 +387,7 @@ Approved RFCs **intentional breaking changes**:
 | #0131 | Build Observability (OTEL) | Tracing and metrics for builds |
 | #0130 | OCI Image Annotations | Richer metadata on output images |
 | #0128 | Multi-arch Support | Build once, run on amd64 & arm64 |
-| #0125 | Parallel Cache/Image Export | Faster builds |
+| #0125 | Parallel Cache | Faster builds |
 | #0113 | Additional OCI Artifacts | SBOMs, signatures as OCI artifacts |
 :::
 

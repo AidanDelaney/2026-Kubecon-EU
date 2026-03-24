@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Cloud Native Buildpacks">
+  <meta name="author" content="Aidan Delaney">
   <title>Buildpacks: Towards 1.0, AI and Other Things</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -104,7 +104,7 @@
 
 <section id="title-slide" data-background-image="images/bg-title.png" data-background-size="contain">
   <h1 class="title">Buildpacks: Towards 1.0, AI and Other Things</h1>
-  <p class="author">Cloud Native Buildpacks</p>
+  <p class="author">Aidan Delaney</p>
   <p class="date">KubeCon EU 2026</p>
 </section>
 
@@ -145,10 +145,14 @@ build and deploy AI-driven applications</li>
 a custom builder.</p>
 </div>
 </section>
-<section id="who-has-used-buildpacks" class="slide level2"
+<section id="section" class="slide level2"
 data-background-image="images/bg-section-windmill.png">
-<h2 data-background-image="images/bg-section-windmill.png">Who has used
-Buildpacks?</h2>
+<h2 data-background-image="images/bg-section-windmill.png"></h2>
+<p><br/> <br/> <span style="color: white;">Who has experience with Cloud
+Native Buildpacks?</span></p>
+<pre class="console" style="color: white;"><code>$ pack build my-image</code></pre>
+<pre class="console" style="color: white;"><code>$ mvn spring-boot:build-image</code></pre>
+<pre class="console" style="color: white;"><code>$ kubectl apply -f my-kpack-image.yaml</code></pre>
 </section>
 <section id="what-are-cloud-native-buildpacks" class="slide level2"
 data-background-image="images/bg-content.png">
@@ -288,7 +292,7 @@ Questions</h2>
 <li>What are the runtimes that we support in production?</li>
 <li>How much flexibility do we provide to application developers?</li>
 <li>How do I patch a security vulnerability?</li>
-<li>How do I bundle a proprietary layer onto the image?</li>
+<li>How do I bundle a proprietary layer?</li>
 </ul>
 <aside class="notes">
 <ul>
@@ -318,19 +322,19 @@ Answers</h2>
 <li>Subsequent builds do not require <code>root</code>!</li>
 </ul>
 </div><div class="column" style="width:66%;">
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nvidia/cuda:13.1.1-cudnn-devel-ubuntu24.04</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_uid=1001</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_gid=1001</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> CNB_USER_ID=${cnb_uid} <span class="op">\</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    CNB_GROUP_ID=${cnb_gid}</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">groupadd</span> <span class="at">--gid</span> <span class="va">${cnb_gid}</span> cnb <span class="dt">\</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a> <span class="kw">&amp;&amp;</span> <span class="ex">useradd</span> <span class="at">--uid</span> <span class="va">${cnb_uid}</span> <span class="dt">\ </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    --gid ${cnb_gid} -m cnb</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">USER</span> ${cnb_uid}:${cnb_gid}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nvidia/cuda:13.1.1-cudnn-devel-ubuntu24.04</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_uid=1001</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> cnb_gid=1001</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> CNB_USER_ID=${cnb_uid} <span class="op">\</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    CNB_GROUP_ID=${cnb_gid}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">groupadd</span> <span class="at">--gid</span> <span class="va">${cnb_gid}</span> cnb <span class="dt">\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a> <span class="kw">&amp;&amp;</span> <span class="ex">useradd</span> <span class="at">--uid</span> <span class="va">${cnb_uid}</span> <span class="dt">\ </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    --gid ${cnb_gid} -m cnb</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">USER</span> ${cnb_uid}:${cnb_gid}</span></code></pre></div>
 </div>
 </div>
 </section>
@@ -346,20 +350,20 @@ Answers</h2>
 <p>Define a <code>builder.toml</code> that references the Paketo Java
 buildpack</p>
 </div><div class="column" style="width:66%;">
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[run.images]]</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-run:latest&quot;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[buildpacks]]</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uri</span> <span class="op">=</span> <span class="st">&quot;paketobuildpacks/java&quot;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[[targets]]</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">os</span> <span class="op">=</span> <span class="st">&quot;linux&quot;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">arch</span> <span class="op">=</span> <span class="st">&quot;amd64&quot;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">[[order]]</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">[[order.group]]</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span> <span class="op">=</span> <span class="st">&quot;paketo-buildpacks/java&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[run.images]]</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span> <span class="op">=</span> <span class="st">&quot;cuda-run:latest&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[buildpacks]]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uri</span> <span class="op">=</span> <span class="st">&quot;paketobuildpacks/java&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[[targets]]</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">os</span> <span class="op">=</span> <span class="st">&quot;linux&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">arch</span> <span class="op">=</span> <span class="st">&quot;amd64&quot;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">[[order]]</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">[[order.group]]</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span> <span class="op">=</span> <span class="st">&quot;paketo-buildpacks/java&quot;</span></span></code></pre></div>
 </div>
 </div>
 </section>
@@ -475,10 +479,10 @@ builder</li>
 data-background-image="images/bg-content.png">
 <h2 data-background-image="images/bg-content.png">Step 2 — Build with
 Buildpacks</h2>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./pytorch-hello-world</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pack</span> build my-pytorch-app <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--builder</span> polyglot-cuda-builder <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path</span> ./pytorch-hello-world</span></code></pre></div>
 <div class="fragment">
 <pre><code>===&gt; DETECTING
 paketo-buildpacks/cpython      2.x.x
@@ -497,8 +501,8 @@ Successfully built image my-pytorch-app</code></pre>
 data-background-image="images/bg-content.png">
 <h2 data-background-image="images/bg-content.png">Step 3 — Run with GPU
 Access</h2>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--gpus</span> all my-pytorch-app</span></code></pre></div>
 <div class="fragment">
 <pre><code>Python: 3.14.3
 PyTorch: 2.2.1+cu124
@@ -534,11 +538,11 @@ like any other buildpacks workflow.</p>
 </blockquote>
 </div>
 </section>
-<section>
-<section id="towards-1.0" class="title-slide slide level1"
-data-background-image="images/bg-content.png">
-<h1 data-background-image="images/bg-content.png">Towards 1.0</h1>
-
+<section id="section-1" class="slide level2"
+data-background-image="images/bg-section-windmill.png">
+<h2 data-background-image="images/bg-section-windmill.png"></h2>
+<p><br/> <br/> <span style="color: white;font-size: 3em;">Towards
+1.0</span></p>
 </section>
 <section id="what-does-1.0-mean" class="slide level2">
 <h2>What Does 1.0 Mean?</h2>
@@ -558,27 +562,26 @@ to depend on</li>
 </aside>
 </section>
 <section id="breaking-changes-to-deliver-before-1.0"
-class="slide level2" data-background-image="images/bg-content.png">
-<h2 data-background-image="images/bg-content.png">Breaking Changes to
-Deliver Before 1.0</h2>
+class="slide level2">
+<h2>Breaking Changes to Deliver Before 1.0</h2>
 <p>Approved RFCs <strong>intentional breaking changes</strong>:</p>
+<p><img data-src="images/timline-to-1.0.png" /></p>
+<aside class="notes">
 <ul>
 <li><strong>RFC #0096 — Remove Stacks and Mixins</strong>
 <ul>
 <li>Stacks are replaced by build/run image targets</li>
-<li>Simplifies the mental model significantly</li>
 </ul></li>
 <li><strong>RFC #0093 — Remove Shell Processes</strong>
 <ul>
 <li>All processes become direct processes</li>
-<li>Improved security and signal handling</li>
 </ul></li>
 <li><strong>RFC #0105 — Dockerfiles (Image Extensions)</strong>
 <ul>
 <li>Allows customizing build/run images via Dockerfiles</li>
-<li>For use cases like CUDA, as we just saw</li>
 </ul></li>
 </ul>
+</aside>
 </section>
 <section id="active-rfcs-shaping-the-future" class="slide level2">
 <h2>Active RFCs Shaping the Future</h2>
@@ -619,7 +622,7 @@ Deliver Before 1.0</h2>
 </tr>
 <tr>
 <td>#0125</td>
-<td>Parallel Cache/Image Export</td>
+<td>Parallel Cache</td>
 <td>Faster builds</td>
 </tr>
 <tr>
@@ -722,7 +725,7 @@ the community</li>
 <p>We’re a CNCF project — contributions from every perspective make us
 stronger.</p>
 </blockquote>
-</section></section>
+</section>
 <section>
 <section id="thank-you" class="title-slide slide level1">
 <h1>Thank You</h1>
@@ -766,24 +769,24 @@ href="https://cloud-native.slack.com/">cloud-native.slack.com</a></li>
 </section>
 <section id="cuda-image-extensions" class="slide level2">
 <h2>CUDA Image Extensions</h2>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run.Dockerfile — generated by the extension</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> base_image</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> ${base_image}</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Install CUDA runtime libraries</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    cuda-cudart-12-4 <span class="dt">\</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    libcublas-12-4 <span class="dt">\</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    libcufft-12-4 <span class="dt">\</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    libcurand-12-4 <span class="dt">\</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    libcusparse-12-4 <span class="dt">\</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    libcudnn9-cuda-12 <span class="dt">\</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_VISIBLE_DEVICES=all</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_DRIVER_CAPABILITIES=compute,utility</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run.Dockerfile — generated by the extension</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ARG</span> base_image</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> ${base_image}</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Install CUDA runtime libraries</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    cuda-cudart-12-4 <span class="dt">\</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    libcublas-12-4 <span class="dt">\</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    libcufft-12-4 <span class="dt">\</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    libcurand-12-4 <span class="dt">\</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    libcusparse-12-4 <span class="dt">\</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    libcudnn9-cuda-12 <span class="dt">\</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_VISIBLE_DEVICES=all</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NVIDIA_DRIVER_CAPABILITIES=compute,utility</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}</span></code></pre></div>
 </section></section>
     </div>
   </div>
