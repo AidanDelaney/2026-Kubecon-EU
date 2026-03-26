@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/reset.css">
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/reveal.css">
+  <link rel="stylesheet" href="reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="reveal.js/dist/reveal.css">
   <style>
     .reveal .sourceCode {  /* see #7635 */
       overflow: visible;
@@ -95,7 +95,7 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4/dist/theme/white.css" id="theme">
+  <link rel="stylesheet" href="reveal.js/dist/theme/white.css" id="theme">
   <link rel="stylesheet" href="tweaks.css"/>
 </head>
 <body>
@@ -154,6 +154,63 @@ Native Buildpacks?</span></p>
 <pre class="console" style="color: white;"><code>$ mvn spring-boot:build-image</code></pre>
 <pre class="console" style="color: white;"><code>$ kubectl apply -f my-kpack-image.yaml</code></pre>
 </section>
+<section id="demo-the-goal" class="slide level2"
+data-background-image="images/bg-content-header.png">
+<h2 data-background-image="images/bg-content-header.png">Demo: The
+Goal</h2>
+<p>Build a production-ready Java application image using:</p>
+<ul>
+<li>As an application developer
+<ul>
+<li><code>pack build</code>: use our <code>pack</code> CLI to build an
+image</li>
+<li><code>docker run</code>: or <code>podman</code> or deploy on
+k8s</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Demonstrate the simplicity of the application developer
+experience</li>
+</ul>
+</aside>
+</section>
+<section id="application-developer" class="slide level2"
+data-background-image="images/bg-content.png">
+<h2 data-background-image="images/bg-content.png">Application
+Developer</h2>
+<ul>
+<li>LIVE(ish) Demo
+<ul>
+<li>(yes, it’s pre-scripted)</li>
+</ul></li>
+<li>Animated <code>gif</code> available at <a
+href="demo/java//demo.gif">demo/java/demo.gif</a></li>
+</ul>
+<pre><code>$ pack build example --builder cuda-java-builder</code></pre>
+<div class="fragment">
+<pre><code>$ docker run --rm -it example
+Backend: CpuBackend
+Learned: y = 2.03x + 0.93  (loss: 0.000911)</code></pre>
+<aside class="notes">
+<ul>
+<li>Explain application first!
+<ul>
+<li>Minimal “hello world” for neural networks — trains a single-neuron
+network to learn the linear equation <code>y = 2x + 1</code>.</li>
+<li>The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact
+points on the line <code>y = 2x + 1</code>.</li>
+<li>The network is never told the formula — it has to figure out the
+slope (2) and intercept (1) itself.</li>
+<li>Maven for dependency management</li>
+<li>Local JDK 25 with Java 21 output</li>
+</ul></li>
+<li>Point out command</li>
+<li>Pause on configurable options (because <code>--verbose</code>)</li>
+</ul>
+</aside>
+</div>
+</section>
 <section id="what-are-cloud-native-buildpacks" class="slide level2"
 data-background-image="images/bg-content.png">
 <h2 data-background-image="images/bg-content.png">What Are Cloud Native
@@ -204,68 +261,6 @@ href="https://docs.cloud.google.com/docs/buildpacks/overview">https://docs.cloud
 </ul></li>
 </ul>
 </aside>
-</section>
-<section id="demo-the-goal" class="slide level2"
-data-background-image="images/bg-content-header.png">
-<h2 data-background-image="images/bg-content-header.png">Demo: The
-Goal</h2>
-<p>Build a production-ready Java application image using:</p>
-<ul>
-<li>As an application developer
-<ul>
-<li><code>pack build</code>: use our <code>pack</code> CLI to build an
-image</li>
-<li><code>docker run</code>: or <code>podman</code> deploy on k8s</li>
-</ul></li>
-<li>As a platform operator
-<ul>
-<li>a custom builder</li>
-</ul></li>
-</ul>
-<aside class="notes">
-<ul>
-<li>Demonstrate the simplicity of the application developer
-experience</li>
-<li>Show how platform operators (DevOps, platform engineer, …) retain
-control of the experience</li>
-</ul>
-</aside>
-</section>
-<section id="application-developer" class="slide level2"
-data-background-image="images/bg-content.png">
-<h2 data-background-image="images/bg-content.png">Application
-Developer</h2>
-<ul>
-<li>LIVE(ish) Demo
-<ul>
-<li>(yes, it’s pre-scripted)</li>
-</ul></li>
-<li>Animated <code>gif</code> available at <a
-href="demo/java//demo.gif">demo/java/demo.gif</a></li>
-</ul>
-<pre><code>$ pack build example --builder cuda-java-builder</code></pre>
-<div class="fragment">
-<pre><code>$ docker run --rm -it example
-Backend: CpuBackend
-Learned: y = 2.03x + 0.93  (loss: 0.000911)</code></pre>
-<aside class="notes">
-<ul>
-<li>Explain application first!
-<ul>
-<li>Minimal “hello world” for neural networks — trains a single-neuron
-network to learn the linear equation <code>y = 2x + 1</code>.</li>
-<li>The four input/output pairs (1→3, 2→5, 3→7, 4→9) are all exact
-points on the line <code>y = 2x + 1</code>.</li>
-<li>The network is never told the formula — it has to figure out the
-slope (2) and intercept (1) itself.</li>
-<li>Maven for dependency management</li>
-<li>Local JDK 25 with Java 21 output</li>
-</ul></li>
-<li>Point out command</li>
-<li>Pause on configurable options (because <code>--verbose</code>)</li>
-</ul>
-</aside>
-</div>
 </section>
 <section id="platform-operator" class="slide level2"
 data-background-image="images/bg-content.png">
@@ -791,12 +786,12 @@ class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb12
     </div>
   </div>
 
-  <script src="https://unpkg.com/reveal.js@^4/dist/reveal.js"></script>
+  <script src="reveal.js/dist/reveal.js"></script>
 
   <!-- reveal.js plugins -->
-  <script src="https://unpkg.com/reveal.js@^4/plugin/notes/notes.js"></script>
-  <script src="https://unpkg.com/reveal.js@^4/plugin/search/search.js"></script>
-  <script src="https://unpkg.com/reveal.js@^4/plugin/zoom/zoom.js"></script>
+  <script src="reveal.js/plugin/notes/notes.js"></script>
+  <script src="reveal.js/plugin/search/search.js"></script>
+  <script src="reveal.js/plugin/zoom/zoom.js"></script>
 
   <script>
 

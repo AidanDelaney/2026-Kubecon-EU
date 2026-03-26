@@ -209,12 +209,16 @@ Define a `builder.toml` that references the Paketo Java buildpack
 
 ## Platform Operator Answers {data-background-image="images/bg-content.png"}
 
-The following questions will be answered at the Buildpacks booth:
+The following questions will be answered our booth:
 
 * What are the runtimes that we support in production? 
 * How much flexibility do we provide to application developers?
 * How do I patch a security vulnerability?
 * How do I bundle a proprietary layer onto the image?
+
+<aside class="notes">
+* Project Pavilion: P-12b
+</aside>
 
 <!--
 ## Create the Builder Image

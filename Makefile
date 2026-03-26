@@ -3,7 +3,7 @@ all: serve
 presentation:
 	pandoc -t revealjs -s presentation.md -o presentation.html \
 		-V theme=white -V transition=none -V controls=true -V progress=true -V slideNumber=true \
-		-V revealjs-url=https://unpkg.com/reveal.js@^4 -V navigationMode=linear \
+		-V revealjs-url=reveal.js -V navigationMode=linear \
 		--css tweaks.css \
 		--slide-level=2
 
