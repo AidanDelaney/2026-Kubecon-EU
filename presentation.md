@@ -14,7 +14,7 @@ title-slide-attributes:
 * Buildpacks Maintainer
 * Academic Background
 * 20+ years of Industry Experience
-* CNCF Lorem Ipsum 2025
+* CNCF 2025 Lorem Ipsum award
 :::
 ::: {.column width="60%"}
 * We're hiring in Bloomberg Dublin! and other locations
@@ -100,7 +100,7 @@ Learned: y = 2.03x + 0.93  (loss: 0.000911)
 - Allow composition of "buildpacks"
 - Transform application source code into OCI container images
 - Provide a multi-vendor **structured**, **repeatable** build process
-- CNCF Incubating project
+- CNCF Incubating Project
 
 <aside class="notes">
 * We also provide both `pack` and `kpack` as tools
